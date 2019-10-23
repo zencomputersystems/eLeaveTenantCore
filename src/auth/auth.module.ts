@@ -1,16 +1,20 @@
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
-import { Module } from "@nestjs/common";
+import { Module, HttpModule } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { ActiveDirectoryStrategy } from "./passport/ad.strategy";
 import { JwtStrategy } from "./passport/jwt.strategy";
+import { UserService } from "../admin/user/user.service";
+import { DreamFactory } from "../config/dreamfactory";
+import { QueryParserService } from "../common/helper/query-parser.service";
+import { LocalStrategy } from "./passport/local.strategy";
 
 @Module({
   providers: [
-    // QueryParserService,
+    QueryParserService,
     AuthService,
-    // UserService,
-    // LocalStrategy,
+    UserService,
+    LocalStrategy,
     ActiveDirectoryStrategy,
     JwtStrategy
   ],
@@ -18,9 +22,8 @@ import { JwtStrategy } from "./passport/jwt.strategy";
     AuthController,
   ],
   imports: [
-    PassportModule.register({ session: false })
-    // HttpModule.register({ headers: { 'Content-Type': 'application/json', 'X-Dreamfactory-API-Key': DreamFactory.df_key } }),
-    // UserModule
+    PassportModule.register({ session: false }),
+    HttpModule.register({ headers: { 'Content-Type': 'application/json', 'X-Dreamfactory-API-Key': DreamFactory.df_key } })
   ]
 })
 export class AuthModule { }
