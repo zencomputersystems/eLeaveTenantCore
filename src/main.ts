@@ -14,8 +14,8 @@ async function bootstrap() {
   ));
 
   const options = new DocumentBuilder()
-    .setTitle('Leave REST API')
-    .setDescription('This is API for leave service')
+    .setTitle('Tenant Leave REST API')
+    .setDescription('This is API for tenant leave service')
     .setVersion('1.0')
     .addTag('leave')
     .addBearerAuth('Authorization', 'header', 'apiKey')
