@@ -19,28 +19,34 @@ export class QueryParserService {
    * @memberof QueryParserService
    */
   generateDbQuery(tableName: string, fields: Array<string>, filters: Array<string>) {
+    // set url table name
     let url = DreamFactory.df_host + tableName + "?";
+
+    // set field and filter
     let field = "";
     let filter = "";
 
+    // extract and setup field data 
     if (fields.length > 0) {
       field = "fields=" + fields.join(",");
     }
 
+    // extract and setup filter data
     if (filters.length > 0) {
       if (field !== "")
         filter = "&";
-
+      // create filter parameter
       filter = filter + "filter=" + filters.join("AND");
     }
 
+    // combine field and filter in parameter
     return url + field + filter;
-
 
   }
 
   /**
    * Method generate db query additional idfields parameter
+   * Use url for create and uppdate
    *
    * @param {string} tableName
    * @param {Array<string>} fields
@@ -50,34 +56,22 @@ export class QueryParserService {
    * @memberof QueryParserService
    */
   generateDbQueryV2(tableName: string, fields: Array<string>, filters: Array<string>, idFields: Array<string>) {
+    // set url table name
     let url = DreamFactory.df_host + tableName + "?";
 
+    // setup param key and value for url
     const paramArray = [];
 
+    // refactor data request
+    this.refactor([paramArray, fields, filters, "AND"]);
 
-    this.refactor(paramArray, fields, filters, "AND");
-    // console.log(paramArray);
-    // // build the parameter
-    // if (fields.length > 0) {
-    //     const field = "fields=" + fields.map(res => encodeURIComponent(res)).join(",");
-
-    //     paramArray.push(field);
-    // }
-
-    // if (filters.length > 0) {
-
-    //     const filter = "filter=" + filters.map(res => encodeURIComponent(res)).join("AND");
-
-    //     paramArray.push(filter);
-    // }
-
-
+    // get only field specify
     if (idFields.length > 0) {
       const idField = "id_field=" + idFields.map(res => encodeURIComponent(res)).join(",");
-
       paramArray.push(idField);
     }
 
+    // generate url and return
     const buildurl = url + paramArray.join("&");
     return buildurl;
 
@@ -85,7 +79,8 @@ export class QueryParserService {
 
   /**
    * function with sort and limit
-   *
+   * use in all query contain limit and order condition
+   * 
    * @param {DBRequest} data
    * @returns
    * @memberof QueryParserService
@@ -98,39 +93,28 @@ export class QueryParserService {
     let orders: string = data[3];
     let limit: number = data[4];
 
+    // set url table name
     let url = DreamFactory.df_host + tableName + "?";
 
+    // setup param key and value for url
     const paramArray = [];
 
-    this.refactor(paramArray, fields, filters, " ");
+    // refactor data request
+    this.refactor([paramArray, fields, filters, " "]);
 
-    // // build the parameter
-    // if (fields.length > 0) {
-    //     const field = "fields=" + fields.map(res => encodeURIComponent(res)).join(",");
-
-    //     paramArray.push(field);
-    // }
-
-    // if (filters.length > 0) {
-
-    //     const filter = "filter=" + filters.map(res => encodeURIComponent(res)).join(" ");
-
-    //     paramArray.push(filter);
-    // }
-
-
+    // order condition
     if (orders != null && orders != '' && orders != undefined) {
       const order = "order=" + orders;
-
       paramArray.push(order);
     }
 
+    // limit data results
     if (limit != null && limit != undefined) {
       const limits = "limit=" + limit;
-
       paramArray.push(limits);
     }
 
+    // generate url and return
     const buildurl = url + paramArray.join("&");
     return buildurl;
 
@@ -147,22 +131,17 @@ export class QueryParserService {
    * @param {string} whereArgs
    * @memberof QueryParserService
    */
-  public refactor(paramArray: any[], fields: string[], filters: string[], whereArgs: string) {
-    // console.log(whereArgs);
+  public refactor([paramArray, fields, filters, whereArgs]: [any[], string[], string[], string]) {
     // build the parameter
     if (fields.length > 0) {
       const field = "fields=" + fields.map(res => encodeURIComponent(res)).join(",");
-
       paramArray.push(field);
     }
 
     if (filters.length > 0) {
-
       const filter = "filter=" + filters.map(res => encodeURIComponent(res)).join(whereArgs);
-
       paramArray.push(filter);
     }
-    // console.log(paramArray);
-    // return paramArray;
+
   }
 }

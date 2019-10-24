@@ -2,7 +2,7 @@ import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 import { Module, HttpModule } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
-import { ActiveDirectoryStrategy } from "./passport/ad.strategy";
+// import { ActiveDirectoryStrategy } from "./passport/ad.strategy";
 import { JwtStrategy } from "./passport/jwt.strategy";
 import { UserService } from "../admin/user/user.service";
 import { DreamFactory } from "../config/dreamfactory";
@@ -15,7 +15,7 @@ import { LocalStrategy } from "./passport/local.strategy";
     AuthService,
     UserService,
     LocalStrategy,
-    ActiveDirectoryStrategy,
+    // ActiveDirectoryStrategy,
     JwtStrategy
   ],
   controllers: [

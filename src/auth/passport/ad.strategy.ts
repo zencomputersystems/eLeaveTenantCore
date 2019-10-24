@@ -17,21 +17,21 @@ var Strategy = require('passport-activedirectory');
 @Injectable()
 export class ActiveDirectoryStrategy extends PassportStrategy(Strategy, 'ad') {
 
-  constructor(
-    private readonly authService: AuthService) {
-    super(
-      {
-        integrated: false,
-        usernameField: 'email',
-        passReqToCallback: false,
-        ldap: ldap
-      }
-    );
-  }
+  // constructor(
+  //   private readonly authService: AuthService) {
+  //   super(
+  //     {
+  //       integrated: false,
+  //       usernameField: 'email',
+  //       passReqToCallback: false,
+  //       ldap: ldap
+  //     }
+  //   );
+  // }
 
-  async validate(profile, ad, done: Function) {
-    await this.authService.adLogin(profile)
-      .then(user => done(null, user))
-      .catch(err => done(err, false))
-  }
+  // async validate(profile, ad, done: Function) {
+  //   await this.authService.adLogin(profile)
+  //     .then(user => done(null, user))
+  //     .catch(err => done(err, false))
+  // }
 }

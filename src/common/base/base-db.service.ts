@@ -53,44 +53,44 @@ export class BaseDBService {
     return this.httpService.patch(this.queryService.generateDbQueryV2(this.tableName, fields, filters, idFields), resource);
   }
 
-  /**
-   * Find by filter v3
-   *
-   * @param {string[]} fields
-   * @param {string[]} filters
-   * @returns {Observable<any>}
-   * @memberof BaseDBService
-   */
-  public findByFilterV3(fields: string[], filters: string[]): Observable<any> {
+  // /**
+  //  * Find by filter v3
+  //  *
+  //  * @param {string[]} fields
+  //  * @param {string[]} filters
+  //  * @returns {Observable<any>}
+  //  * @memberof BaseDBService
+  //  */
+  // public findByFilterV3(fields: string[], filters: string[]): Observable<any> {
 
-    //url
-    const url = this.queryService.generateDbQueryV2(this.tableName, fields, filters, []);
+  //   //url
+  //   const url = this.queryService.generateDbQueryV2(this.tableName, fields, filters, []);
 
-    return this.httpService.get(url);
-  }
+  //   return this.httpService.get(url);
+  // }
 
-  /**
-   * Find by filter v2
-   *
-   * @param {string[]} fields
-   * @param {string[]} filters
-   * @returns {Observable<Array<any>>}
-   * @memberof BaseDBService
-   */
-  public findByFilterV2(fields: string[], filters: string[]): Observable<Array<any>> {
+  // /**
+  //  * Find by filter v2
+  //  *
+  //  * @param {string[]} fields
+  //  * @param {string[]} filters
+  //  * @returns {Observable<Array<any>>}
+  //  * @memberof BaseDBService
+  //  */
+  // public findByFilterV2(fields: string[], filters: string[]): Observable<Array<any>> {
 
-    //url
-    const url = this.queryService.generateDbQueryV2(this.tableName, fields, filters, []);
+  //   //url
+  //   const url = this.queryService.generateDbQueryV2(this.tableName, fields, filters, []);
 
-    return this.httpService.get(url)
-      .pipe(
-        map(res => {
-          if (res.status == 200) {
-            return res.data.resource;
-          }
-        })
-      )
-  }
+  //   return this.httpService.get(url)
+  //     .pipe(
+  //       map(res => {
+  //         if (res.status == 200) {
+  //           return res.data.resource;
+  //         }
+  //       })
+  //     )
+  // }
 
   /**
    * With order and limit
@@ -102,7 +102,7 @@ export class BaseDBService {
    * @returns {Observable<Array<any>>}
    * @memberof BaseDBService
    */
-  public findByFilterV4(fields: string[], filters: string[], order: string, limit: number): Observable<Array<any>> {
+  public findByFilterV4([fields, filters, order, limit]: [string[], string[], string, number]): Observable<Array<any>> {
     //url
     const url = this.queryService.generateDbQueryV3([this.tableName, fields, filters, order, limit]);
 

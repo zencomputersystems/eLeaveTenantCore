@@ -3,24 +3,17 @@ import { sign } from 'jsonwebtoken';
 import { SignupDTO } from "./dto/signup.dto";
 import { of } from "rxjs";
 import { UserService } from '../admin/user/user.service';
-import { UserModel } from "src/admin/user/model/user.model";
+import { UserModel } from "../admin/user/model/user.model";
 import { decryptProcess } from '../common/helper/basic-function';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) { }
 
-  // sign up new user for local database
-  public signupUser([signupData, cipherPassword]: [SignupDTO, string]) {
-    // Logger.log(signupData, 'sign up process');
-    return this.userService.signUpUserAdmin([signupData, cipherPassword]);
-    // return of(cipherPassword);
-  }
-
   public async createToken(signedUser: UserModel) {
     // 3300(55m) 28800(8h) 600(10m)
     // Logger.log(signedUser.EMAIL + ' - ' + signedUser.USER_GUID + ' - ' + signedUser.ROLE, 'data');
-    const expiresIn = 120, secretOrKey = 'this_is_secret';
+    const expiresIn = 28800, secretOrKey = 'this_is_secret';
     const user = {
       loginId: signedUser.LOGIN_ID,
       email: signedUser.EMAIL,
@@ -34,20 +27,20 @@ export class AuthService {
     }
   }
 
-  public async adLogin(data) {
+  // public async adLogin(data) {
 
-    // return await this.userService.findByFilterV2([], ['(LOGIN_ID=' + data._json.userPrincipalName + ')']).toPromise()
-    //   .then(async user => {
+  //   // return await this.userService.findByFilterV2([], ['(LOGIN_ID=' + data._json.userPrincipalName + ')']).toPromise()
+  //   //   .then(async user => {
 
-    //     return (user.length > 0)
-    //       ? Promise.resolve(user[0])
-    //       : Promise.reject(new UnauthorizedException('Invalid Credential'))
-    //   })
-    // return data;
-    return (data)
-      ? Promise.resolve(data)
-      : Promise.reject(new UnauthorizedException('Invalid Credential'))
-  }
+  //   //     return (user.length > 0)
+  //   //       ? Promise.resolve(user[0])
+  //   //       : Promise.reject(new UnauthorizedException('Invalid Credential'))
+  //   //   })
+  //   // return data;
+  //   return (data)
+  //     ? Promise.resolve(data)
+  //     : Promise.reject(new UnauthorizedException('Invalid Credential'))
+  // }
 
   /**
    * Verify the JWT token data
@@ -70,20 +63,20 @@ export class AuthService {
 
   }
 
-  public async localLogin(data) {
+  // public async localLogin(data) {
 
-    // return await this.userService.findByFilterV2([], ['(LOGIN_ID=' + data._json.userPrincipalName + ')']).toPromise()
-    //   .then(async user => {
+  //   // return await this.userService.findByFilterV2([], ['(LOGIN_ID=' + data._json.userPrincipalName + ')']).toPromise()
+  //   //   .then(async user => {
 
-    //     return (user.length > 0)
-    //       ? Promise.resolve(user[0])
-    //       : Promise.reject(new UnauthorizedException('Invalid Credential'))
-    //   })
-    // return data;
-    return (data)
-      ? Promise.resolve(data)
-      : Promise.reject(new UnauthorizedException('Invalid Credential'))
-  }
+  //   //     return (user.length > 0)
+  //   //       ? Promise.resolve(user[0])
+  //   //       : Promise.reject(new UnauthorizedException('Invalid Credential'))
+  //   //   })
+  //   // return data;
+  //   return (data)
+  //     ? Promise.resolve(data)
+  //     : Promise.reject(new UnauthorizedException('Invalid Credential'))
+  // }
 
   public async logIn(email, password) {
     // Logger.log('in login', 'authservice');

@@ -3,7 +3,7 @@ import { BaseDBService } from "../../common/base/base-db.service";
 import { QueryParserService } from "../../common/helper/query-parser.service";
 import { SignupDTO } from "../../auth/dto/signup.dto";
 import { v1 } from 'uuid';
-import { UserModel } from "./model/user.model";
+import { UserModel } from './model/user.model';
 import { Resource } from "../../common/model/resource.model";
 
 @Injectable()
@@ -28,7 +28,7 @@ export class UserService extends BaseDBService {
     super(httpService, queryService, "user_main_tenant")
   }
 
-  public signUpUserAdmin([signupData, cipherPassword]: [SignupDTO, string]) {
+  public signUpUserAdmin([signupData, cipherPassword, req]: [SignupDTO, string, UserModel]) {
 
     const data = new UserModel();
 
@@ -39,7 +39,7 @@ export class UserService extends BaseDBService {
     data.FULLNAME = signupData.name;
     data.ROLE = signupData.role;
     data.ACTIVATION_FLAG = 1;
-    // data.CREATION_USER_GUID : string;
+    data.CREATION_USER_GUID = req.USER_GUID;
     // data.CREATION_TS: string;
     // data.UPDATE_USER_GUID: string;
     // data.UPDATE_TS: string;
@@ -51,14 +51,6 @@ export class UserService extends BaseDBService {
     return this.createByModel(resource, [], [], []);
 
   }
-
-  // public verifyUserExist(dataValidate: string) {
-  //   const fields = ['USER_GUID'];
-  //   const filters = ['(EMAIL=' + dataValidate + ')'];
-
-  //   const url = this.queryService.generateDbQuery(this.table_name, fields, filters);
-  //   return this.httpService.get(url).toPromise();
-  // }
 
   /**
      * Find single user
@@ -89,8 +81,6 @@ export class UserService extends BaseDBService {
     const filters = ['(EMAIL=' + payload.email + ')', '(USER_GUID=' + payload.userId + ')', '(LOGIN_ID=' + payload.loginId + ')']
 
     const url = this.queryService.generateDbQuery(this.table_name, fields, filters);
-
-    //call DF to validate the user
     return this.httpService.get(url).toPromise();
   }
 
