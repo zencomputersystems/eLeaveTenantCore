@@ -10,6 +10,10 @@ export class SignupDTO {
   @IsNotEmpty()
   email: string;
 
+  @ApiModelProperty({ description: 'Login id of user', example: 'meehailam@zen.com.my' })
+  @IsNotEmpty()
+  loginId: string;
+
   @ApiModelProperty({ description: 'Encrypted password', example: 'U2FsdGVkX1/KIXThPp1Pl4cGVZEKLjRxVF8QgwS76NI=' })
   @IsNotEmpty()
   password: string;

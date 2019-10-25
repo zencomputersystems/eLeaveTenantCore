@@ -38,10 +38,14 @@ export class UserManageController {
   @Post('sign-up')
   @ApiOperation({ title: 'Sign up new user', description: 'Sign up new user in local db. \nPermission : superadmin' })
   signup(@Body() signupData: SignupDTO, @Req() req, @Res() res: Response) {
-    // decrypt password
-    var plainPassword = decryptProcess([signupData.password, 'secret key 122']);
-    // encrypt by dynamic key
-    var cipherPassword = encryptProcess([plainPassword, signupData.email]);
+    // // decrypt password
+    // var plainPassword = decryptProcess([signupData.password, 'secret key 122']);
+    // // encrypt by dynamic key
+    // var cipherPassword = encryptProcess([plainPassword, signupData.email]);
+
+    // encrypt sha256 by dynamic key
+    var cipherPassword = encryptProcess([signupData.password, signupData.loginId]);
+
     // process signup
     this.userManageService.signupUser([signupData, cipherPassword, req.user]).subscribe(
       data => {

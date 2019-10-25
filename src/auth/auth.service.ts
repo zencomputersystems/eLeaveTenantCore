@@ -78,24 +78,29 @@ export class AuthService {
   //     : Promise.reject(new UnauthorizedException('Invalid Credential'))
   // }
 
-  public async logIn(email, password) {
+  public async logIn(loginId, password) {
     // Logger.log('in login', 'authservice');
-    return await this.userService.findOne(email, password)
+    return await this.userService.findOne(loginId, password)
       .then(async user => {
         // Logger.log(user.data.resource[0], 'data-user');
 
         let userData: UserMainModel = user.data.resource[0];
 
         let dbPassword = null;
-        let inputPassword = decryptProcess([password, 'secret key 122']);
+        // let inputPassword = decryptProcess([password, 'secret key 122']);
 
         dbPassword = userData ? decryptProcess([userData.PASSWORD, userData.LOGIN_ID]) : null;
 
         // Logger.log(dbPassword, 'dbPassword');
         // Logger.log(inputPassword, 'inputPassword');
-        return (inputPassword === dbPassword && dbPassword != null)
+        // return (inputPassword === dbPassword && dbPassword != null)
+        //   ? Promise.resolve(userData)
+        //   : Promise.reject(new UnauthorizedException('Invalid Credential'))
+
+        return (password === dbPassword && dbPassword != null)
           ? Promise.resolve(userData)
           : Promise.reject(new UnauthorizedException('Invalid Credential'))
+
       })
   }
 

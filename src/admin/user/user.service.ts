@@ -15,7 +15,7 @@ export class UserService {
     const data = new UserMainModel();
 
     data.USER_GUID = v1();
-    data.LOGIN_ID = signupData.email;
+    data.LOGIN_ID = signupData.loginId;
     data.PASSWORD = cipherPassword;
     data.EMAIL = signupData.email;
     data.FULLNAME = signupData.name;
@@ -30,12 +30,12 @@ export class UserService {
 
   }
 
-  public async findOne(email: string, password: string): Promise<any> {
+  public async findOne(loginId: string, password: string): Promise<any> {
     // Logger.log(email + ' - ' + password);
     // const fields = ['USER_GUID', 'EMAIL', 'PASSWORD'];
     const fields = ['USER_GUID', 'LOGIN_ID', 'PASSWORD', 'EMAIL', 'FULLNAME', 'ROLE', 'ACTIVATION_FLAG'];
     //const filters = ['(EMAIL='+email+')','(PASSWORD='+CryptoJS.SHA256(password.trim()).toString(CryptoJS.enc.Hex)+')'];
-    const filters = ['(LOGIN_ID=' + email + ')'];
+    const filters = ['(LOGIN_ID=' + loginId + ')'];
 
     // console.log(filters);
 

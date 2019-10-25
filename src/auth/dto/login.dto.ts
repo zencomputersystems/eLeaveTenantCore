@@ -3,11 +3,11 @@ import { IsNotEmpty } from 'class-validator';
 
 export class LoginDTO {
 
-  @ApiModelProperty({ description: 'Email id account', example: 'meehailam@zen.com.my' })
+  @ApiModelProperty({ description: 'Login id account', example: 'meehailam@zen.com.my' })
   @IsNotEmpty()
-  readonly email: string;
+  readonly loginId: string;
 
-  @ApiModelProperty({ description: 'Password for email account', example: 'U2FsdGVkX1/KIXThPp1Pl4cGVZEKLjRxVF8QgwS76NI=' })
+  @ApiModelProperty({ description: 'Password for user account', example: '1f86c446121a0219e5eae8c531981ee550b0844384f1603bc0c9eb625b2c3d91' })
   @IsNotEmpty()
   readonly password: string;
 

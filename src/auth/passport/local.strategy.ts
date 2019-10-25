@@ -23,7 +23,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
    */
   constructor(private readonly authService: AuthService) {
     super({
-      usernameField: 'email',
+      usernameField: 'loginId',
       passReqToCallback: false
     });
   }
@@ -36,8 +36,8 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
    * @param {Function} done
    * @memberof LocalStrategy
    */
-  async validate(email, password, done: Function) {
-    await this.authService.logIn(email, password)
+  async validate(loginId, password, done: Function) {
+    await this.authService.logIn(loginId, password)
       .then(user => done(null, user))
       .catch(err => done(err, false))
   }
