@@ -26,7 +26,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       usernameField: 'email',
       passReqToCallback: false
     });
-    // console.log('sss');
   }
 
   /**
@@ -38,7 +37,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
    * @memberof LocalStrategy
    */
   async validate(email, password, done: Function) {
-    // Logger.log(password, email);
     await this.authService.logIn(email, password)
       .then(user => done(null, user))
       .catch(err => done(err, false))

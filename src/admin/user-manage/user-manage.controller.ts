@@ -19,7 +19,7 @@ export class UserManageController {
   @Roles('salesperson', 'superadmin')
   @Get(':role')
   @ApiOperation({ title: 'Get user by role', description: 'Get user list by specify role. \nPermission : superadmin, salesperson' })
-  @ApiImplicitQuery({ name: 'role', description: 'Role to filter', required: true, enum: ['salesperson', 'superadmin', 'support'] })
+  @ApiImplicitQuery({ name: 'role', description: 'Role to filter', required: true, enum: ['all', 'salesperson', 'superadmin', 'support'] })
   getUserAdmin(@Param('role') role, @Req() req, @Res() res) {
     //get parameter data from link or parameter extension (admin/user-manage/salesperson) || (admin/user-manage/{role}?role=salesperson)
     let roleData = verifyParam([req, 'role', role]);

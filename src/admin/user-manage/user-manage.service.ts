@@ -14,7 +14,8 @@ export class UserManageService {
 
   public getAdminUser(role: string) {
     const field = [];
-    const filter = ['(ROLE=' + role + ')'];
+    let filter = ['(ROLE=' + role + ')'];
+    filter = role == 'all' ? [] : filter;
     return this.userService.userDbService.findByFilterV4([field, filter, null, null]);
   }
 }

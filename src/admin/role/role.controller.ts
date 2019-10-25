@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Req, Res } from "@nestjs/common";
+import { Controller, UseGuards, Get, Res } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation } from "@nestjs/swagger";
 import { RoleService } from './role.service';
@@ -11,7 +11,7 @@ export class RoleController {
   constructor(private readonly roleService: RoleService) { }
   @Get()
   @ApiOperation({ title: 'Get all role', description: 'Get list of role. \nPermission : all' })
-  getRoleList(@Req() req, @Res() res: Response) {
+  getRoleList(@Res() res: Response) {
     this.roleService.getRole().subscribe(
       data => {
         res.send(data);
