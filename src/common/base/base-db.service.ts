@@ -28,29 +28,21 @@ export class BaseDBService {
   /**
    * Method create
    *
-   * @param {Resource} resource
-   * @param {string[]} fields
-   * @param {string[]} filters
-   * @param {string[]} idFields
    * @returns
    * @memberof BaseDBService
    */
-  createByModel(resource: Resource, fields: string[], filters: string[], idFields: string[]) {
-    return this.httpService.post(this.queryService.generateDbQueryV2(this.tableName, fields, filters, idFields), resource);
+  createByModel([resource, fields, filters, idFields]: [Resource, string[], string[], string[]]) {
+    return this.httpService.post(this.queryService.generateDbQueryV2([this.tableName, fields, filters, idFields]), resource);
   }
 
   /**
    * Method update
    *
-   * @param {Resource} resource
-   * @param {string[]} fields
-   * @param {string[]} filters
-   * @param {string[]} idFields
    * @returns
    * @memberof BaseDBService
    */
-  updateByModel(resource: Resource, fields: string[], filters: string[], idFields: string[]) {
-    return this.httpService.patch(this.queryService.generateDbQueryV2(this.tableName, fields, filters, idFields), resource);
+  updateByModel([resource, fields, filters, idFields]: [Resource, string[], string[], string[]]) {
+    return this.httpService.patch(this.queryService.generateDbQueryV2([this.tableName, fields, filters, idFields]), resource);
   }
 
   // /**
@@ -95,10 +87,6 @@ export class BaseDBService {
   /**
    * With order and limit
    *
-   * @param {string[]} fields
-   * @param {string[]} filters
-   * @param {string} order
-   * @param {number} limit
    * @returns {Observable<Array<any>>}
    * @memberof BaseDBService
    */

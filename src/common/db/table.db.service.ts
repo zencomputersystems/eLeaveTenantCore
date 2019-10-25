@@ -10,3 +10,13 @@ export class RoleDbService extends BaseDBService {
     super(httpService, queryService, "t_view_role")
   }
 }
+
+@Injectable()
+export class UserDbService extends BaseDBService {
+  public tableDB = 'user_main_tenant';
+  constructor(
+    public readonly httpService: HttpService,
+    public readonly queryService: QueryParserService) {
+    super(httpService, queryService, "user_main_tenant")
+  }
+}

@@ -4,12 +4,14 @@ import { Module, HttpModule } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { QueryParserService } from '../../common/helper/query-parser.service';
 import { DreamFactory } from '../../config/dreamfactory';
+import { UserDbService } from '../../common/db/table.db.service';
 
 @Module({
   providers: [
     QueryParserService,
     UserManageService,
-    UserService
+    UserService,
+    UserDbService
   ],
   controllers: [
     UserManageController

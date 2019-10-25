@@ -8,15 +8,17 @@ import { UserService } from "../admin/user/user.service";
 import { DreamFactory } from "../config/dreamfactory";
 import { QueryParserService } from "../common/helper/query-parser.service";
 import { LocalStrategy } from "./passport/local.strategy";
+import { UserDbService } from '../common/db/table.db.service';
 
 @Module({
   providers: [
     QueryParserService,
     AuthService,
     UserService,
+    UserDbService,
     LocalStrategy,
     // ActiveDirectoryStrategy,
-    JwtStrategy
+    JwtStrategy,
   ],
   controllers: [
     AuthController,

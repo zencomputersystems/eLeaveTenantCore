@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { RoleDbService } from '../../common/db/role.db.service';
+import { RoleDbService } from '../../common/db/table.db.service';
 
 @Injectable()
 export class RoleService {

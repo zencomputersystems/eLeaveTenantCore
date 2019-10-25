@@ -12,13 +12,10 @@ export class QueryParserService {
   /**
    * Method generate db query 
    *
-   * @param {string} tableName
-   * @param {Array<string>} fields
-   * @param {Array<string>} filters
    * @returns
    * @memberof QueryParserService
    */
-  generateDbQuery(tableName: string, fields: Array<string>, filters: Array<string>) {
+  generateDbQuery([tableName, fields, filters]: [string, Array<string>, Array<string>]) {
     // set url table name
     let url = DreamFactory.df_host + tableName + "?";
 
@@ -48,14 +45,10 @@ export class QueryParserService {
    * Method generate db query additional idfields parameter
    * Use url for create and uppdate
    *
-   * @param {string} tableName
-   * @param {Array<string>} fields
-   * @param {Array<string>} filters
-   * @param {Array<string>} idFields
    * @returns
    * @memberof QueryParserService
    */
-  generateDbQueryV2(tableName: string, fields: Array<string>, filters: Array<string>, idFields: Array<string>) {
+  generateDbQueryV2([tableName, fields, filters, idFields]: [string, Array<string>, Array<string>, Array<string>]) {
     // set url table name
     let url = DreamFactory.df_host + tableName + "?";
 
@@ -85,13 +78,13 @@ export class QueryParserService {
    * @returns
    * @memberof QueryParserService
    */
-  generateDbQueryV3(data: DBRequest) {
+  generateDbQueryV3([tableName, fields, filters, orders, limit]: DBRequest) {
 
-    let tableName: string = data[0];
-    let fields: Array<string> = data[1];
-    let filters: Array<string> = data[2];
-    let orders: string = data[3];
-    let limit: number = data[4];
+    // let tableName: string = data[0];
+    // let fields: Array<string> = data[1];
+    // let filters: Array<string> = data[2];
+    // let orders: string = data[3];
+    // let limit: number = data[4];
 
     // set url table name
     let url = DreamFactory.df_host + tableName + "?";

@@ -1,4 +1,4 @@
-export class UserModel {
+export class UserMainModel {
   USER_GUID: string;
   LOGIN_ID: string;
   PASSWORD: string;

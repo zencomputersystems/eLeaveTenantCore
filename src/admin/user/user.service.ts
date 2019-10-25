@@ -1,36 +1,18 @@
-import { Injectable, HttpService, Logger } from '@nestjs/common';
-import { BaseDBService } from "../../common/base/base-db.service";
-import { QueryParserService } from "../../common/helper/query-parser.service";
+import { Injectable } from '@nestjs/common';
 import { SignupDTO } from "../../auth/dto/signup.dto";
 import { v1 } from 'uuid';
-import { UserModel } from './model/user.model';
 import { Resource } from "../../common/model/resource.model";
+import { UserDbService } from '../../common/db/table.db.service';
+import { UserMainModel } from '../../common/model/user-main.model';
 
 @Injectable()
-export class UserService extends BaseDBService {
+export class UserService {
 
-  /**
-   * Declare tablename user main
-   *
-   * @private
-   * @memberof UserService
-   */
-  private table_name = 'user_main_tenant';
-  /**
-   *Creates an instance of UserService.
-   * @param {HttpService} httpService Service for http
-   * @param {QueryParserService} queryService Service for query
-   * @memberof UserService
-   */
-  constructor(
-    public readonly httpService: HttpService,
-    public readonly queryService: QueryParserService) {
-    super(httpService, queryService, "user_main_tenant")
-  }
+  constructor(public readonly userDbService: UserDbService) { }
 
-  public signUpUserAdmin([signupData, cipherPassword, req]: [SignupDTO, string, UserModel]) {
+  public signUpUserAdmin([signupData, cipherPassword, req]: [SignupDTO, string, UserMainModel]) {
 
-    const data = new UserModel();
+    const data = new UserMainModel();
 
     data.USER_GUID = v1();
     data.LOGIN_ID = signupData.email;
@@ -40,26 +22,14 @@ export class UserService extends BaseDBService {
     data.ROLE = signupData.role;
     data.ACTIVATION_FLAG = 1;
     data.CREATION_USER_GUID = req.USER_GUID;
-    // data.CREATION_TS: string;
-    // data.UPDATE_USER_GUID: string;
-    // data.UPDATE_TS: string;
-    // data.DELETED_AT: string;
 
     const resource = new Resource(new Array);
     resource.resource.push(data);
 
-    return this.createByModel(resource, [], [], []);
+    return this.userDbService.createByModel([resource, [], [], []]);
 
   }
 
-  /**
-     * Find single user
-     *
-     * @param {string} email
-     * @param {string} password
-     * @returns {Promise<any>}
-     * @memberof UserService
-     */
   public async findOne(email: string, password: string): Promise<any> {
     // Logger.log(email + ' - ' + password);
     // const fields = ['USER_GUID', 'EMAIL', 'PASSWORD'];
@@ -69,10 +39,10 @@ export class UserService extends BaseDBService {
 
     // console.log(filters);
 
-    const url = this.queryService.generateDbQuery(this.table_name, fields, filters);
+    const url = this.userDbService.queryService.generateDbQuery([this.userDbService.tableDB, fields, filters]);
 
     //call DF to validate the user
-    return this.httpService.get(url).toPromise();
+    return this.userDbService.httpService.get(url).toPromise();
 
   }
 
@@ -80,8 +50,8 @@ export class UserService extends BaseDBService {
     const fields = ['USER_GUID', 'LOGIN_ID', 'PASSWORD', 'EMAIL', 'FULLNAME', 'ROLE', 'ACTIVATION_FLAG'];
     const filters = ['(EMAIL=' + payload.email + ')', '(USER_GUID=' + payload.userId + ')', '(LOGIN_ID=' + payload.loginId + ')']
 
-    const url = this.queryService.generateDbQuery(this.table_name, fields, filters);
-    return this.httpService.get(url).toPromise();
+    const url = this.userDbService.queryService.generateDbQuery([this.userDbService.tableDB, fields, filters]);
+    return this.userDbService.httpService.get(url).toPromise();
   }
 
 }

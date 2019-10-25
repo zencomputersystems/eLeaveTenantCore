@@ -3,14 +3,14 @@ import { sign } from 'jsonwebtoken';
 import { SignupDTO } from "./dto/signup.dto";
 import { of } from "rxjs";
 import { UserService } from '../admin/user/user.service';
-import { UserModel } from "../admin/user/model/user.model";
 import { decryptProcess } from '../common/helper/basic-function';
+import { UserMainModel } from '../common/model/user-main.model';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) { }
 
-  public async createToken(signedUser: UserModel) {
+  public async createToken(signedUser: UserMainModel) {
     // 3300(55m) 28800(8h) 600(10m)
     // Logger.log(signedUser.EMAIL + ' - ' + signedUser.USER_GUID + ' - ' + signedUser.ROLE, 'data');
     const expiresIn = 28800, secretOrKey = 'this_is_secret';
@@ -84,7 +84,7 @@ export class AuthService {
       .then(async user => {
         // Logger.log(user.data.resource[0], 'data-user');
 
-        let userData: UserModel = user.data.resource[0];
+        let userData: UserMainModel = user.data.resource[0];
 
         let dbPassword = null;
         let inputPassword = decryptProcess([password, 'secret key 122']);
