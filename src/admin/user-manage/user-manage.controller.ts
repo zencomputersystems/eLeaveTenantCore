@@ -21,7 +21,7 @@ export class UserManageController {
   @ApiOperation({ title: 'Get user by role', description: 'Get user list by specify role. \nPermission : superadmin, salesperson' })
   @ApiImplicitQuery({ name: 'role', description: 'Role to filter', required: true, enum: ['all', 'salesperson', 'superadmin', 'support'] })
   getUserAdmin(@Param('role') role, @Req() req, @Res() res) {
-    //get parameter data from link or parameter extension (admin/user-manage/salesperson) || (admin/user-manage/{role}?role=salesperson)
+    // get parameter data from link or parameter extension 
     let roleData = verifyParam([req, 'role', role]);
 
     this.userManageService.getAdminUser(roleData).subscribe(

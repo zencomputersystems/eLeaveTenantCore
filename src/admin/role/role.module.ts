@@ -4,6 +4,7 @@ import { RoleService } from "./role.service";
 import { RoleDbService } from "../../common/db/table.db.service";
 import { DreamFactory } from "../../config/dreamfactory";
 import { QueryParserService } from "../../common/helper/query-parser.service";
+import { getModuleHttp } from "../../common/helper/basic-function";
 
 @Module({
   providers: [
@@ -15,7 +16,8 @@ import { QueryParserService } from "../../common/helper/query-parser.service";
     RoleController
   ],
   imports: [
-    HttpModule.register({ headers: { 'Content-Type': 'application/json', 'X-Dreamfactory-API-Key': DreamFactory.df_key } })
+    getModuleHttp()
+    // HttpModule.register({ headers: { 'Content-Type': 'application/json', 'X-Dreamfactory-API-Key': DreamFactory.df_key } })
   ]
 })
 export class RoleModule { }

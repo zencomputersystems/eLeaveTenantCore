@@ -5,6 +5,7 @@ import { UserService } from '../user/user.service';
 import { QueryParserService } from '../../common/helper/query-parser.service';
 import { DreamFactory } from '../../config/dreamfactory';
 import { UserDbService } from '../../common/db/table.db.service';
+import { getModuleHttp } from '../../common/helper/basic-function';
 
 @Module({
   providers: [
@@ -17,7 +18,7 @@ import { UserDbService } from '../../common/db/table.db.service';
     UserManageController
   ],
   imports: [
-    HttpModule.register({ headers: { 'Content-Type': 'application/json', 'X-Dreamfactory-API-Key': DreamFactory.df_key } })
+    getModuleHttp()
   ]
 })
 export class UserManagerModule { }

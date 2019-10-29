@@ -58,8 +58,7 @@ export class BaseDBService {
   //   //url
   //   const url = this.queryService.generateDbQueryV2(this.tableName, fields, filters, []);
 
-  //   return this.httpService.get(url);
-  // }
+
 
   // /**
   //  * Find by filter v2

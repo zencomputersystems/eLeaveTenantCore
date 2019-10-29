@@ -31,13 +31,9 @@ export class UserService {
   }
 
   public async findOne(loginId: string, password: string): Promise<any> {
-    // Logger.log(email + ' - ' + password);
-    // const fields = ['USER_GUID', 'EMAIL', 'PASSWORD'];
     const fields = ['USER_GUID', 'LOGIN_ID', 'PASSWORD', 'EMAIL', 'FULLNAME', 'ROLE', 'ACTIVATION_FLAG'];
-    //const filters = ['(EMAIL='+email+')','(PASSWORD='+CryptoJS.SHA256(password.trim()).toString(CryptoJS.enc.Hex)+')'];
-    const filters = ['(LOGIN_ID=' + loginId + ')'];
 
-    // console.log(filters);
+    const filters = ['(LOGIN_ID=' + loginId + ')'];
 
     const url = this.userDbService.queryService.generateDbQuery([this.userDbService.tableDB, fields, filters]);
 

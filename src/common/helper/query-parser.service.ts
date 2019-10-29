@@ -80,12 +80,6 @@ export class QueryParserService {
    */
   generateDbQueryV3([tableName, fields, filters, orders, limit]: DBRequest) {
 
-    // let tableName: string = data[0];
-    // let fields: Array<string> = data[1];
-    // let filters: Array<string> = data[2];
-    // let orders: string = data[3];
-    // let limit: number = data[4];
-
     // set url table name
     let url = DreamFactory.df_host + tableName + "?";
 

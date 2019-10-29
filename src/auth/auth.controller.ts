@@ -20,7 +20,6 @@ export class AuthController {
   @ApiOperation({ title: 'test encrypt', description: 'test encrypt using crypto-js' })
   public async testEncryptSHA256(@Req() req: Request) {
     return CryptoJS.SHA256(req.query.password.trim()).toString(CryptoJS.enc.Hex);
-    // return encryptProcess([req.query.password, 'secret key 122']);
   }
 
   @Get('test-verify-sha256')
@@ -32,7 +31,6 @@ export class AuthController {
     let shaFromEncryption = decryptProcess([req.query.aes, 'secret key 122']);
 
     return sha256Input === shaFromEncryption;
-    // return encryptProcess([req.query.password, 'secret key 122']);
   }
 
   @Get('test-encrypt')

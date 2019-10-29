@@ -1,8 +1,8 @@
 {
   "name": "e-leave-tenant-core",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "this is API server for tenant leave application",
+  "author": "fakhri",
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

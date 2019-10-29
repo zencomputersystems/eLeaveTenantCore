@@ -1,4 +1,5 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, HttpModule } from '@nestjs/common';
+import { DreamFactory } from '../../config/dreamfactory';
 
 // start encrypt function //
 var CryptoJS = require("crypto-js");
@@ -31,4 +32,10 @@ export function verifyParam([req, key, id]: [any, string, string]) {
   }
   return dataId;
 
+}
+
+const baseModule = HttpModule.register({ headers: { 'Content-Type': 'application/json', 'X-Dreamfactory-API-Key': DreamFactory.df_key } });
+
+export function getModuleHttp() {
+  return baseModule;
 }
