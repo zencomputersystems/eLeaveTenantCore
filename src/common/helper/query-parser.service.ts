@@ -107,8 +107,6 @@ export class QueryParserService {
 
   }
 
-  //const url = DreamFactory.df_host+this.table_name+"?id_field=TENANT_GUID%2CCOST_CENTRE_GUID";
-
   /**
    * Refactor function
    *
