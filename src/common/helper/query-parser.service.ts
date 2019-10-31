@@ -1,6 +1,6 @@
 import { DreamFactory } from '../../config/dreamfactory';
 
-type DBRequest = [string, Array<string>, Array<string>, string, number];
+type DBRequest = [string, Array<string>, Array<string>, string, number, number];
 /**
  * Service for query
  *
@@ -78,7 +78,7 @@ export class QueryParserService {
    * @returns
    * @memberof QueryParserService
    */
-  generateDbQueryV3([tableName, fields, filters, orders, limit]: DBRequest) {
+  generateDbQueryV3([tableName, fields, filters, orders, limit, offset]: DBRequest) {
 
     // set url table name
     let url = DreamFactory.df_host + tableName + "?";
@@ -99,6 +99,12 @@ export class QueryParserService {
     if (limit != null && limit != undefined) {
       const limits = "limit=" + limit;
       paramArray.push(limits);
+    }
+
+    // offset data results
+    if (offset != null && offset != undefined) {
+      const offsets = "offset=" + offset;
+      paramArray.push(offsets);
     }
 
     // generate url and return

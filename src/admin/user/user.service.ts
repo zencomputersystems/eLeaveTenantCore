@@ -4,6 +4,7 @@ import { v1 } from 'uuid';
 import { Resource } from "../../common/model/resource.model";
 import { UserDbService } from '../../common/db/table.db.service';
 import { UserMainModel } from '../../common/model/user-main.model';
+import { UpdateUserMainDTO } from '../user-manage/dto/update-user-main.dto';
 
 @Injectable()
 export class UserService {
@@ -30,14 +31,28 @@ export class UserService {
 
   }
 
+  public updateUserMain([updateUserMainData, req]: [UpdateUserMainDTO, UserMainModel]) {
+    const data = new UserMainModel();
+
+    data.USER_GUID = updateUserMainData.userId;
+    data.EMAIL = updateUserMainData.email;
+    data.FULLNAME = updateUserMainData.fullname;
+    data.ROLE = updateUserMainData.role;
+    data.ACTIVATION_FLAG = updateUserMainData.status;
+    data.UPDATE_USER_GUID = req.USER_GUID;
+    data.UPDATE_TS = (new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1);
+
+    const resource = new Resource(new Array);
+    resource.resource.push(data);
+
+    return this.userDbService.updateByModel([resource, [], [], []]);
+  }
+
   public async findOne(loginId: string, password: string): Promise<any> {
     const fields = ['USER_GUID', 'LOGIN_ID', 'PASSWORD', 'EMAIL', 'FULLNAME', 'ROLE', 'ACTIVATION_FLAG'];
-
     const filters = ['(LOGIN_ID=' + loginId + ')'];
 
     const url = this.userDbService.queryService.generateDbQuery([this.userDbService.tableDB, fields, filters]);
-
-    //call DF to validate the user
     return this.userDbService.httpService.get(url).toPromise();
 
   }

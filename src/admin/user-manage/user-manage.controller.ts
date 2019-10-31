@@ -1,12 +1,13 @@
-import { Controller, UseGuards, Get, Req, Res, Post, Body, ConflictException, Logger, Param, NotFoundException } from '@nestjs/common';
+import { Controller, UseGuards, Get, Req, Res, Post, Body, ConflictException, Logger, Param, NotFoundException, Patch } from '@nestjs/common';
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiOperation, ApiImplicitQuery } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiImplicitParam } from '@nestjs/swagger';
 import { RolesGuard } from "../../guard/role.guard";
 import { Roles } from "../../guard/main.decorator";
 import { UserManageService } from "./user-manage.service";
 import { SignupDTO } from "../../auth/dto/signup.dto";
-import { decryptProcess, encryptProcess, verifyParam } from "../../common/helper/basic-function";
+import { encryptProcess } from "../../common/helper/basic-function";
 import { Response } from 'express';
+import { UpdateUserMainDTO } from './dto/update-user-main.dto';
 
 @Controller('api/admin/user-manage')
 @UseGuards(AuthGuard('jwt'))
@@ -19,11 +20,8 @@ export class UserManageController {
   @Roles('salesperson', 'superadmin')
   @Get(':role')
   @ApiOperation({ title: 'Get user by role', description: 'Get user list by specify role. \nPermission : superadmin, salesperson' })
-  @ApiImplicitQuery({ name: 'role', description: 'Role to filter', required: true, enum: ['all', 'salesperson', 'superadmin', 'support'] })
-  getUserAdmin(@Param('role') role, @Req() req, @Res() res) {
-    // get parameter data from link or parameter extension 
-    let roleData = verifyParam([req, 'role', role]);
-
+  @ApiImplicitParam({ name: 'role', description: 'Role to filter', required: true, enum: ['all', 'salesperson', 'superadmin', 'support'] })
+  getUserAdmin(@Param('role') roleData, @Res() res) {
     this.userManageService.getAdminUser(roleData).subscribe(
       data => {
         res.send(data);
@@ -38,10 +36,6 @@ export class UserManageController {
   @Post('sign-up')
   @ApiOperation({ title: 'Sign up new user', description: 'Sign up new user in local db. \nPermission : superadmin' })
   signup(@Body() signupData: SignupDTO, @Req() req, @Res() res: Response) {
-    // // decrypt password
-    // var plainPassword = decryptProcess([signupData.password, 'secret key 122']);
-    // // encrypt by dynamic key
-    // var cipherPassword = encryptProcess([plainPassword, signupData.email]);
 
     // encrypt sha256 by dynamic key
     var cipherPassword = encryptProcess([signupData.password, signupData.loginId]);
@@ -55,6 +49,18 @@ export class UserManageController {
       }
     );
 
+  }
+
+  @Patch('user-main')
+  @ApiOperation({ title: 'Update user details', description: 'Update user main details. \nPermission : all' })
+  updateUserMain(@Body() updateUserMainDto: UpdateUserMainDTO, @Req() req, @Res() res: Response) {
+    this.userManageService.updateUserMain([updateUserMainDto, req.user]).subscribe(
+      data => {
+        res.send(data.data.resource);
+      }, err => {
+        res.send(new NotFoundException('Data not found', 'Failed to update'));
+      }
+    );
   }
 
 }

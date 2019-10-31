@@ -19,6 +19,8 @@ export class AuthService {
       role: signedUser.ROLE
     };
     return {
+      status: signedUser.ACTIVATION_FLAG,
+      role: signedUser.ROLE,
       expires_in: expiresIn,
       access_token: await sign(user, secretOrKey, { expiresIn })
     }
