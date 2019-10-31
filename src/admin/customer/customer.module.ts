@@ -1,21 +1,21 @@
 import { Module } from "@nestjs/common";
-import { RoleController } from "./role.controller";
-import { RoleService } from "./role.service";
-import { RoleDbService } from "../../common/db/table.db.service";
 import { QueryParserService } from "../../common/helper/query-parser.service";
+import { CustomerService } from "../../admin/customer/customer.service";
+import { CustomerDbService } from "../../common/db/table.db.service";
+import { CustomerController } from "./customer.controller";
 import { getModuleHttp } from "../../common/helper/basic-function";
 
 @Module({
   providers: [
     QueryParserService,
-    RoleService,
-    RoleDbService
+    CustomerService,
+    CustomerDbService
   ],
   controllers: [
-    RoleController
+    CustomerController
   ],
   imports: [
     getModuleHttp()
   ]
 })
-export class RoleModule { }
+export class CustomerModule { }
