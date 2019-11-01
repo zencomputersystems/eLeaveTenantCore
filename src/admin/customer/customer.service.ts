@@ -6,6 +6,7 @@ import { CustomerModel } from '../../common/model/customer.model';
 import { v1 } from "uuid";
 import { Resource } from "../../common/model/resource.model";
 import { UpdateCustomerDTO } from './dto/update-customer.dto';
+import { setUpdateData } from "../../common/helper/basic-function";
 
 @Injectable()
 export class CustomerService {
@@ -32,8 +33,7 @@ export class CustomerService {
 
     data.CUSTOMER_GUID = editCustomerData.customerGuid;
     this.inputData([data, editCustomerData]);
-    data.UPDATE_TS = (new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1);
-    data.UPDATE_USER_GUID = req.USER_GUID;
+    setUpdateData([data, req.USER_GUID]);
 
     const resource = new Resource(new Array);
     resource.resource.push(data);

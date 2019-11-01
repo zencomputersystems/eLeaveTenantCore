@@ -5,6 +5,7 @@ import { Resource } from "../../common/model/resource.model";
 import { UserDbService } from '../../common/db/table.db.service';
 import { UserMainModel } from '../../common/model/user-main.model';
 import { UpdateUserMainDTO } from '../user-manage/dto/update-user-main.dto';
+import { setUpdateData } from '../../common/helper/basic-function';
 
 @Injectable()
 export class UserService {
@@ -39,8 +40,7 @@ export class UserService {
     data.FULLNAME = updateUserMainData.fullname;
     data.ROLE = updateUserMainData.role;
     data.ACTIVATION_FLAG = updateUserMainData.status;
-    data.UPDATE_USER_GUID = req.USER_GUID;
-    data.UPDATE_TS = (new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1);
+    setUpdateData([data, req.USER_GUID]);
 
     const resource = new Resource(new Array);
     resource.resource.push(data);

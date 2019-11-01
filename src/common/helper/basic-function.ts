@@ -39,3 +39,9 @@ const baseModule = HttpModule.register({ headers: { 'Content-Type': 'application
 export function getModuleHttp() {
   return baseModule;
 }
+
+export function setUpdateData([data, userGuid]: [any, string]) {
+  data.UPDATE_TS = (new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1);
+  data.UPDATE_USER_GUID = userGuid;
+  return data;
+}
