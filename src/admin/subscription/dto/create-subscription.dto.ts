@@ -2,6 +2,11 @@ import { ApiModelProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, IsNumber } from "class-validator";
 
 export class CreateSubscriptionDTO {
+  @ApiModelProperty({ description: 'Customer Id', example: '2c077cf0-fbc8-11e9-9e4f-17c749da278d' })
+  @IsNotEmpty()
+  @IsString()
+  customerGuid: string;
+
   @ApiModelProperty({ description: 'Subscription plan', example: 'standard' })
   @IsNotEmpty()
   @IsString()

@@ -1,5 +1,6 @@
 export class SubscriptionModel {
   SUBSCRIPTION_GUID: string;
+  CUSTOMER_GUID: string;
   PLAN: string;
   STATUS: number;
   QUOTA: number;

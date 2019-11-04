@@ -13,7 +13,6 @@ export class CustomerModel {
   COUNTRY: string;
   CURRENCY: string;
   SALESPERSON: string;
-  SUBSCRIPTION_GUID: string;
   CREATION_TS: string;
   CREATION_USER_GUID: string;
   UPDATE_TS: string;

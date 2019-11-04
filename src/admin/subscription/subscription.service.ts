@@ -44,6 +44,7 @@ export class SubscriptionService {
 
   public inputDataSubscription([model, data]: [SubscriptionModel, UpdateSubscriptionDTO | CreateSubscriptionDTO]) {
 
+    model.CUSTOMER_GUID = data.customerGuid;
     model.PLAN = data.subscriptionPlan;
     model.STATUS = data.subscriptionStatus;
     model.QUOTA = data.subscriptionQuota;
