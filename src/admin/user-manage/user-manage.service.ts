@@ -21,6 +21,6 @@ export class UserManageService {
     const field = ['USER_GUID', 'EMAIL', 'FULLNAME', 'ROLE', 'ACTIVATION_FLAG'];
     let filter = ['(ROLE=' + role + ')'];
     filter = role == 'all' ? [] : filter;
-    return this.userService.userDbService.findByFilterV4([field, filter, null, null, null]);
+    return this.userService.userDbService.findByFilterV4([field, filter, null, null, null, [], null]);
   }
 }

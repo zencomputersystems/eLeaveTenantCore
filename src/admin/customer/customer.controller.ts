@@ -8,11 +8,25 @@ import { CustomerService } from "./customer.service";
 import { Response } from 'express';
 import { UpdateCustomerDTO } from './dto/update-customer.dto';
 
+/**
+ * Controller customer
+ *
+ * @export
+ * @class CustomerController
+ */
 @Controller('api/admin/customer')
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) { }
+  /**
+   * Create customer
+   *
+   * @param {CreateCustomerDTO} customerData
+   * @param {*} req
+   * @param {Response} res
+   * @memberof CustomerController
+   */
   @UseGuards(RolesGuard)
   @Roles('superadmin', 'salesperson', 'support')
   @Post()
@@ -30,6 +44,12 @@ export class CustomerController {
 
   }
 
+  /**
+   * Get customer list
+   *
+   * @param {Response} res
+   * @memberof CustomerController
+   */
   @UseGuards(RolesGuard)
   @Roles('superadmin', 'salesperson', 'support')
   @Get()
@@ -46,6 +66,14 @@ export class CustomerController {
 
   }
 
+  /**
+   * Update customer
+   *
+   * @param {UpdateCustomerDTO} updateCustomerData
+   * @param {*} req
+   * @param {Response} res
+   * @memberof CustomerController
+   */
   @UseGuards(RolesGuard)
   @Roles('superadmin', 'salesperson', 'support')
   @Patch()

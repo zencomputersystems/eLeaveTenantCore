@@ -1,18 +1,23 @@
-import { Controller, UseGuards, Post, Body, Req, Res, ConflictException, Get, NotFoundException, Patch } from "@nestjs/common";
+import { Controller, UseGuards, Post, Body, Req, Res, ConflictException, Get, NotFoundException, Patch, Param } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiOperation } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiImplicitParam } from "@nestjs/swagger";
 import { SubscriptionService } from "./subscription.service";
 import { RolesGuard } from "../../guard/role.guard";
 import { Roles } from "../../guard/main.decorator";
 import { CreateSubscriptionDTO } from "./dto/create-subscription.dto";
 import { Response } from 'express';
 import { UpdateSubscriptionDTO } from "./dto/update-subscription.dto";
+import { SubscriptionDetailService } from "./subscription-detail.service";
+import { CustomerInfoDTO, CompanyInfoDTO, CustomerHistoryDTO, NextBillingDateDTO, UsageDTO } from './dto/results-item.dto';
 
 @Controller('api/admin/subscription')
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class SubscriptionController {
-  constructor(private readonly subscriptionService: SubscriptionService) { }
+  constructor(
+    private readonly subscriptionService: SubscriptionService,
+    private readonly subscriptionDetailService: SubscriptionDetailService
+  ) { }
   @UseGuards(RolesGuard)
   @Roles('superadmin', 'salesperson', 'support')
   @Post()
@@ -60,6 +65,23 @@ export class SubscriptionController {
       }
     );
 
+  }
+
+  @Get(':item/:subs_id')
+  @ApiOperation({ title: 'Get customer details by subscription id', description: 'Get customer details. \nPermission : all' })
+  @ApiImplicitParam({ name: 'item', description: 'Item details', enum: ['customer_info', 'company_info', 'customer_history', 'next_billing_date', 'usage'], required: true })
+  @ApiImplicitParam({ name: 'subs_id', description: 'Subscription guid', required: true })
+  getCustomerDetails(@Param() param, @Res() res) {
+    this.subscriptionDetailService.getData([param.item, param.subs_id]).subscribe(
+      data => {
+        let dataRes: CustomerInfoDTO | CompanyInfoDTO | CustomerHistoryDTO | NextBillingDateDTO | UsageDTO;
+        dataRes = this.subscriptionDetailService.inputData([param.item, data]);
+        res.send(dataRes);
+      }, err => {
+        throw new NotFoundException('No data', 'Failed to get data');
+
+      }
+    );
   }
 
 }

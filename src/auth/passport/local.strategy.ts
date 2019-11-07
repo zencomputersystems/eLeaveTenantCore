@@ -28,6 +28,14 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
 
+  /**
+   * log in user to local db
+   *
+   * @param {*} loginId
+   * @param {*} password
+   * @param {Function} done
+   * @memberof LocalStrategy
+   */
   async validate(loginId, password, done: Function) {
     await this.authService.logIn(loginId, password)
       .then(user => done(null, user))

@@ -5,6 +5,6 @@ import { RoleDbService } from '../../common/db/table.db.service';
 export class RoleService {
   constructor(private readonly roleDbService: RoleDbService) { }
   public getRole() {
-    return this.roleDbService.findByFilterV4([[], [], null, null, null]);
+    return this.roleDbService.findByFilterV4([[], [], null, null, null, [], null]);
   }
 }

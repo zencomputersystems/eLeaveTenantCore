@@ -1,6 +1,6 @@
 import { DreamFactory } from '../../config/dreamfactory';
 
-type DBRequest = [string, Array<string>, Array<string>, string, number, number];
+type DBRequest = [string, Array<string>, Array<string>, string, number, number, string[], string];
 /**
  * Service for query
  *
@@ -56,7 +56,7 @@ export class QueryParserService {
     const paramArray = [];
 
     // refactor data request
-    this.refactor([paramArray, fields, filters, "AND"]);
+    this.refactor([paramArray, [], fields, filters, "AND"]);
 
     // get only field specify
     if (idFields.length > 0) {
@@ -78,7 +78,7 @@ export class QueryParserService {
    * @returns
    * @memberof QueryParserService
    */
-  generateDbQueryV3([tableName, fields, filters, orders, limit, offset]: DBRequest) {
+  generateDbQueryV3([tableName, fields, filters, orders, limit, offset, relations, groups]: DBRequest) {
 
     // set url table name
     let url = DreamFactory.df_host + tableName + "?";
@@ -87,12 +87,18 @@ export class QueryParserService {
     const paramArray = [];
 
     // refactor data request
-    this.refactor([paramArray, fields, filters, " "]);
+    this.refactor([paramArray, relations, fields, filters, " "]);
 
     // order condition
     if (orders != null && orders != '' && orders != undefined) {
       const order = "order=" + orders;
       paramArray.push(order);
+    }
+
+    // group condition
+    if (groups != null && groups != '' && groups != undefined) {
+      const group = "group=" + groups;
+      paramArray.push(group);
     }
 
     // limit data results
@@ -122,8 +128,13 @@ export class QueryParserService {
    * @param {string} whereArgs
    * @memberof QueryParserService
    */
-  public refactor([paramArray, fields, filters, whereArgs]: [any[], string[], string[], string]) {
+  public refactor([paramArray, relations, fields, filters, whereArgs]: [any[], string[], string[], string[], string]) {
     // build the parameter
+    if (relations.length > 0) {
+      const relation = "related=" + relations.map(res => encodeURIComponent(res)).join(",");
+      paramArray.push(relation);
+    }
+
     if (fields.length > 0) {
       const field = "fields=" + fields.map(res => encodeURIComponent(res)).join(",");
       paramArray.push(field);

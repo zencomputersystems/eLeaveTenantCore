@@ -1,11 +1,30 @@
 import { Injectable, CanActivate, ExecutionContext, MethodNotAllowedException, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
+/**
+ * Role guard
+ *
+ * @export
+ * @class RolesGuard
+ * @implements {CanActivate}
+ */
 @Injectable()
 export class RolesGuard implements CanActivate {
 
+  /**
+   *Creates an instance of RolesGuard.
+   * @param {Reflector} reflector
+   * @memberof RolesGuard
+   */
   constructor(private readonly reflector: Reflector) { }
 
+  /**
+   * Can Activate
+   *
+   * @param {ExecutionContext} context
+   * @returns {boolean}
+   * @memberof RolesGuard
+   */
   canActivate(context: ExecutionContext): boolean {
     // get request data
     const request = context.switchToHttp().getRequest();

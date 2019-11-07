@@ -4,10 +4,28 @@ import { UserService } from '../admin/user/user.service';
 import { decryptProcess } from '../common/helper/basic-function';
 import { UserMainModel } from '../common/model/user-main.model';
 
+/**
+ * Auth Service : use to create jwt token and verify login
+ *
+ * @export
+ * @class AuthService
+ */
 @Injectable()
 export class AuthService {
+  /**
+   *Creates an instance of AuthService.
+   * @param {UserService} userService
+   * @memberof AuthService
+   */
   constructor(private readonly userService: UserService) { }
 
+  /**
+   * Create JWT token and set expiry period
+   *
+   * @param {UserMainModel} signedUser
+   * @returns
+   * @memberof AuthService
+   */
   public async createToken(signedUser: UserMainModel) {
     // 3300(55m) 28800(8h) 600(10m)
     const expiresIn = 28800, secretOrKey = 'this_is_secret';
@@ -27,7 +45,7 @@ export class AuthService {
   }
 
   /**
-   * Verify the JWT token data
+   * Verify the JWT token data by payload and get data from db
    *
    * @param {*} payload
    * @returns
@@ -42,6 +60,14 @@ export class AuthService {
       })
   }
 
+  /**
+   * Local db login process authentication
+   *
+   * @param {*} loginId
+   * @param {*} password
+   * @returns
+   * @memberof AuthService
+   */
   public async logIn(loginId, password) {
 
     return await this.userService.findOne(loginId, password)

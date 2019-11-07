@@ -5,16 +5,37 @@ import { AuthGuard } from '@nestjs/passport';
 import { LoginDTO } from './dto/login.dto';
 import { Request } from 'express';
 import { decryptProcess, encryptProcess } from '../common/helper/basic-function';
+/**
+ * Declare cryptojs library
+ */
 var CryptoJS = require("crypto-js");
 
+/**
+ * Auth controller
+ *
+ * @export
+ * @class AuthController
+ */
 @Controller('api/auth')
 export class AuthController {
 
+  /**
+   *Creates an instance of AuthController.
+   * @param {AuthService} authService
+   * @memberof AuthController
+   */
   constructor(
     private readonly authService: AuthService
   ) { }
 
 
+  /**
+   * Test encrypt using sha256
+   *
+   * @param {Request} req
+   * @returns
+   * @memberof AuthController
+   */
   @Get('test-encrypt-sha256')
   @ApiImplicitQuery({ name: 'password', description: 'Password to encrypt', required: true })
   @ApiOperation({ title: 'test encrypt', description: 'test encrypt using crypto-js' })
@@ -22,6 +43,13 @@ export class AuthController {
     return CryptoJS.SHA256(req.query.password.trim()).toString(CryptoJS.enc.Hex);
   }
 
+  /**
+   * Test verify sha256
+   *
+   * @param {Request} req
+   * @returns
+   * @memberof AuthController
+   */
   @Get('test-verify-sha256')
   @ApiImplicitQuery({ name: 'password', description: 'Password to encrypt', required: true })
   @ApiImplicitQuery({ name: 'aes', description: 'aes encryption', required: true })
@@ -33,6 +61,13 @@ export class AuthController {
     return sha256Input === shaFromEncryption;
   }
 
+  /**
+   * Test encrypt using aes
+   *
+   * @param {Request} req
+   * @returns
+   * @memberof AuthController
+   */
   @Get('test-encrypt')
   @ApiImplicitQuery({ name: 'password', description: 'Password to encrypt', required: true })
   @ApiOperation({ title: 'test encrypt', description: 'test encrypt using crypto-js' })
@@ -40,6 +75,13 @@ export class AuthController {
     return encryptProcess([req.query.password, 'secret key 122']);
   }
 
+  /**
+   * Test decrypt using aes
+   *
+   * @param {*} req
+   * @returns
+   * @memberof AuthController
+   */
   @Get('test-decrypt')
   @ApiOperation({ title: 'test decrypt', description: 'test encrypt using crypto-js' })
   @ApiImplicitQuery({ name: 'password', description: 'password to decrypt', required: true })
@@ -47,6 +89,14 @@ export class AuthController {
     return decryptProcess([req.query.password, 'secret key 122']);
   }
 
+  /**
+   * Login local db
+   *
+   * @param {LoginDTO} data
+   * @param {*} req
+   * @returns
+   * @memberof AuthController
+   */
   @Post('login/local')
   @ApiOperation({ title: 'Login credential from database' })
   @UseGuards(AuthGuard('local'))

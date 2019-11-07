@@ -25,7 +25,7 @@ export class CustomerService {
   }
 
   public getCustomer() {
-    return this.customerDbService.findByFilterV4([[], [], null, null, null]);
+    return this.customerDbService.findByFilterV4([[], [], null, null, null, [], null]);
   }
 
   public updateCustomer([editCustomerData, req]: [UpdateCustomerDTO, UserMainModel]) {

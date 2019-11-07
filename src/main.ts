@@ -4,6 +4,10 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { logger } from './common/middleware/logger.middleware';
 
+/**
+ * Bootstrap main function
+ *
+ */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
 

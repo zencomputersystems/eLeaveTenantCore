@@ -89,9 +89,9 @@ export class BaseDBService {
    * @returns {Observable<Array<any>>}
    * @memberof BaseDBService
    */
-  public findByFilterV4([fields, filters, order, limit, offset]: [string[], string[], string, number, number]): Observable<Array<any>> {
+  public findByFilterV4([fields, filters, order, limit, offset, relations, groups]: [string[], string[], string, number, number, string[], string]): Observable<Array<any>> {
     //url
-    const url = this.queryService.generateDbQueryV3([this.tableName, fields, filters, order, limit, offset]);
+    const url = this.queryService.generateDbQueryV3([this.tableName, fields, filters, order, limit, offset, relations, groups]);
 
     return this.httpService.get(url)
       .pipe(

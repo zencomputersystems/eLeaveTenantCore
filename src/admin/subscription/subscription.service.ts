@@ -26,7 +26,7 @@ export class SubscriptionService {
   }
 
   public getSubscription() {
-    return this.subscriptionDbService.findByFilterV4([[], [], null, null, null]);
+    return this.subscriptionDbService.findByFilterV4([[], [], null, null, null, [], null]);
   }
 
   public updateSubscription([editSubscriptionData, req]: [UpdateSubscriptionDTO, UserMainModel]) {
