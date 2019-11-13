@@ -9,6 +9,17 @@ import { IsNotEmpty, IsString, IsNumber } from "class-validator";
  */
 export class CreateSubscriptionDTO {
   /**
+   * Subscription label
+   *
+   * @type {string}
+   * @memberof CreateSubscriptionDTO
+   */
+  @ApiModelProperty({ description: 'Subscription label', example: 'SUB-1' })
+  @IsNotEmpty()
+  @IsString()
+  subscriptionLabel: string;
+
+  /**
    * Customer guid
    *
    * @type {string}

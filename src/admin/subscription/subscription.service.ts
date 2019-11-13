@@ -16,6 +16,7 @@ export class SubscriptionService {
     const data = new SubscriptionModel();
 
     data.SUBSCRIPTION_GUID = v1();
+    data.SUBSCRIPTION_LABEL = subscriptionData.subscriptionLabel;
     this.inputDataSubscription([data, subscriptionData]);
     data.CREATION_USER_GUID = req.USER_GUID;
 

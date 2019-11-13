@@ -15,6 +15,7 @@ export class CustomerService {
     const data = new CustomerModel();
 
     data.CUSTOMER_GUID = v1();
+    data.CUSTOMER_LABEL = customerData.customerLabel;
     this.inputData([data, customerData]);
     data.CREATION_USER_GUID = req.USER_GUID;
 

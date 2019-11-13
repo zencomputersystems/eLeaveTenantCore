@@ -16,6 +16,15 @@ export function getModuleHttp() {
   return baseModule;
 }
 
+/**
+ * Show error
+ *
+ * @export
+ * @param {*} err
+ * @returns
+ */
+export function getResErr(err) { return err.response.data.error.context.resource }
+
 
 
 //  ---------------------------------------------------------------------------------------------------------------------------------------------------

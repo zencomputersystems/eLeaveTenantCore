@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Body, Req, Res, ConflictException, Get, NotFoundException, Patch, Param } from "@nestjs/common";
+import { Controller, UseGuards, Post, Body, Req, Res, ConflictException, Get, NotFoundException, Patch, Param, HttpService, HttpStatus } from '@nestjs/common';
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiImplicitParam } from "@nestjs/swagger";
 import { SubscriptionService } from "./subscription.service";
@@ -9,6 +9,7 @@ import { Response } from 'express';
 import { UpdateSubscriptionDTO } from "./dto/update-subscription.dto";
 import { SubscriptionDetailService } from "./subscription-detail.service";
 import { CustomerInfoDTO, CompanyInfoDTO, CustomerHistoryDTO, NextBillingDateDTO, UsageDTO } from './dto/results-item.dto';
+import { getResErr } from '../../common/helper/basic-function';
 
 @Controller('api/admin/subscription')
 @UseGuards(AuthGuard('jwt'))
@@ -29,7 +30,7 @@ export class SubscriptionController {
       data => {
         res.send(data.data.resource);
       }, err => {
-        res.send(new ConflictException('Failed to create subscription', 'Data not created'));
+        res.status(HttpStatus.CONFLICT).send(getResErr(err));
       }
     );
 
@@ -45,7 +46,7 @@ export class SubscriptionController {
       data => {
         res.send(data);
       }, err => {
-        res.send(new NotFoundException('No subscription found', 'Failed to retrieve subscription list'));
+        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No subscription found', 'Failed to retrieve subscription list'));
       }
     );
 
@@ -61,7 +62,7 @@ export class SubscriptionController {
       data => {
         res.send(data.data.resource);
       }, err => {
-        res.send(new NotFoundException('No subscription found', 'Failed to update Subscription'));
+        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No subscription found', 'Failed to update Subscription'));
       }
     );
 
@@ -78,8 +79,7 @@ export class SubscriptionController {
         dataRes = this.subscriptionDetailService.inputData([param.item, data]);
         res.send(dataRes);
       }, err => {
-        throw new NotFoundException('No data', 'Failed to get data');
-
+        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No data', 'Failed to get data'));
       }
     );
   }

@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Res } from "@nestjs/common";
+import { Controller, UseGuards, Get, Res, HttpStatus, NotFoundException } from '@nestjs/common';
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation } from "@nestjs/swagger";
 import { RoleService } from './role.service';
@@ -16,7 +16,7 @@ export class RoleController {
       data => {
         res.send(data);
       }, err => {
-        res.send(err);
+        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No data found', 'Failed to get data'));
       }
     );
   }

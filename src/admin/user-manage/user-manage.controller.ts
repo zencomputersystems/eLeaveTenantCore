@@ -1,11 +1,11 @@
-import { Controller, UseGuards, Get, Req, Res, Post, Body, ConflictException, Param, NotFoundException, Patch } from '@nestjs/common';
+import { Controller, UseGuards, Get, Req, Res, Post, Body, ConflictException, Param, NotFoundException, Patch, HttpStatus } from '@nestjs/common';
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiImplicitParam } from '@nestjs/swagger';
 import { RolesGuard } from "../../guard/role.guard";
 import { Roles } from "../../guard/main.decorator";
 import { UserManageService } from "./user-manage.service";
 import { SignupDTO } from "../../auth/dto/signup.dto";
-import { encryptProcess } from "../../common/helper/basic-function";
+import { encryptProcess, getResErr } from '../../common/helper/basic-function';
 import { Response } from 'express';
 import { UpdateUserMainDTO } from './dto/update-user-main.dto';
 
@@ -26,7 +26,7 @@ export class UserManageController {
       data => {
         res.send(data);
       }, err => {
-        res.send(err);
+        res.status(HttpStatus.BAD_REQUEST).send(err);
       }
     );
   }
@@ -45,7 +45,7 @@ export class UserManageController {
       data => {
         res.send(data.data.resource);
       }, err => {
-        res.send(new ConflictException('Duplicate entry', 'Failed to create user'));
+        res.status(HttpStatus.CONFLICT).send(getResErr(err));
       }
     );
 
@@ -58,7 +58,7 @@ export class UserManageController {
       data => {
         res.send(data.data.resource);
       }, err => {
-        res.send(new NotFoundException('Data not found', 'Failed to update'));
+        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('Data not found', 'Failed to update'));
       }
     );
   }

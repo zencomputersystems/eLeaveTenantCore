@@ -9,6 +9,17 @@ import { IsNotEmpty, IsString } from "class-validator";
  */
 export class CreateCustomerDTO {
   /**
+   * Customer label
+   *
+   * @type {string}
+   * @memberof CreateCustomerDTO
+   */
+  @ApiModelProperty({ description: 'Customer label', example: 'CUS-1' })
+  @IsNotEmpty()
+  @IsString()
+  customerLabel: string;
+
+  /**
    * Fullname
    *
    * @type {string}

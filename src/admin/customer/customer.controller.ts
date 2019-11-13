@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Body, Req, Res, ConflictException, Get, NotFoundException, Patch } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Req, Res, ConflictException, Get, NotFoundException, Patch, HttpStatus } from '@nestjs/common';
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation } from "@nestjs/swagger";
 import { RolesGuard } from "../../guard/role.guard";
@@ -7,6 +7,7 @@ import { CreateCustomerDTO } from "./dto/create-customer.dto";
 import { CustomerService } from "./customer.service";
 import { Response } from 'express';
 import { UpdateCustomerDTO } from './dto/update-customer.dto';
+import { getResErr } from '../../common/helper/basic-function';
 
 /**
  * Controller customer
@@ -38,7 +39,7 @@ export class CustomerController {
       data => {
         res.send(data.data.resource);
       }, err => {
-        res.send(new ConflictException('Duplicate entry', 'Failed to create user'));
+        res.status(HttpStatus.CONFLICT).send(getResErr(err));
       }
     );
 
@@ -60,7 +61,7 @@ export class CustomerController {
       data => {
         res.send(data);
       }, err => {
-        res.send(new NotFoundException('No customer found', 'Failed to retrieve customer list'));
+        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No customer found', 'Failed to retrieve customer list'));
       }
     );
 
@@ -84,7 +85,7 @@ export class CustomerController {
       data => {
         res.send(data.data.resource);
       }, err => {
-        res.send(new NotFoundException('No customer found', 'Failed to update customer'));
+        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No customer found', 'Failed to update customer'));
       }
     );
 

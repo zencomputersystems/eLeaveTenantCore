@@ -13,6 +13,13 @@ export class CustomerModel {
    */
   CUSTOMER_GUID: string;
   /**
+   * Customer label
+   *
+   * @type {string}
+   * @memberof CustomerModel
+   */
+  CUSTOMER_LABEL: string;
+  /**
    * Fullname
    *
    * @type {string}

@@ -13,6 +13,13 @@ export class SubscriptionModel {
    */
   SUBSCRIPTION_GUID: string;
   /**
+   * Subscription label
+   *
+   * @type {string}
+   * @memberof SubscriptionModel
+   */
+  SUBSCRIPTION_LABEL: string;
+  /**
    * Customer guid
    *
    * @type {string}
