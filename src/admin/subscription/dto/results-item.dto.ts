@@ -12,6 +12,7 @@ export class CustomerInfoDTO {
   customer_currency: string;
   salesperson_pic: string;
   subscription_id: string;
+  subscription_label: string;
   subscription_plan: string;
   subscription_status: number;
   subscription_quota: number;
@@ -25,13 +26,18 @@ export class CustomerInfoDTO {
   billing_cycle: number;
 }
 
+export class CompanyDataDTO {
+  total_company: number;
+  total_employee: number;
+  company_details: CompanyInfoDTO[];
+}
+
 export class CompanyInfoDTO {
-  subs_id: string;
-  company_name: string;
-  company_address1: string;
-  company_address2: string;
-  company_address3: string;
-  employee_no: string;
+  id: string;
+  name: string;
+  registration_no: string;
+  address: string;
+  total_employee: number;
 }
 
 export class CustomerHistoryDTO {

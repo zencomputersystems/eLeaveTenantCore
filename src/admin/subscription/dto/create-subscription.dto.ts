@@ -64,17 +64,6 @@ export class CreateSubscriptionDTO {
   subscriptionQuota: number;
 
   /**
-   * Subscription used quota
-   *
-   * @type {number}
-   * @memberof CreateSubscriptionDTO
-   */
-  @ApiModelProperty({ description: 'Subscription used quota', example: 300 })
-  @IsNotEmpty()
-  @IsNumber()
-  usedQuota: number;
-
-  /**
    * Activation date
    *
    * @type {string}

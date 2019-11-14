@@ -15,7 +15,6 @@ export class CustomerService {
     const data = new CustomerModel();
 
     data.CUSTOMER_GUID = v1();
-    data.CUSTOMER_LABEL = customerData.customerLabel;
     this.inputData([data, customerData]);
     data.CREATION_USER_GUID = req.USER_GUID;
 
@@ -43,6 +42,7 @@ export class CustomerService {
   }
 
   public inputData([model, data]: [CustomerModel, UpdateCustomerDTO | CreateCustomerDTO]) {
+    model.CUSTOMER_LABEL = data.customerLabel;
     model.FULLNAME = data.fullname;
     model.NICKNAME = data.nickname;
     model.EMAIL = data.email;

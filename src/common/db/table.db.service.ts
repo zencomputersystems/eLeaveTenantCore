@@ -85,3 +85,21 @@ export class SubscriptionDbService extends BaseDBService {
    */
   constructor(public readonly httpService: HttpService, public readonly queryService: QueryParserService) { super(httpService, queryService, "tenant_subscription") }
 }
+
+/**
+ * DB table : tenant history activity : tenant_activity_log
+ *
+ * @export
+ * @class ActivityLogDbService
+ * @extends {BaseDBService}
+ */
+@Injectable()
+export class ActivityLogDbService extends BaseDBService {
+  /**
+   *Creates an instance of ActivityLogDbService.
+   * @param {HttpService} httpService http service
+   * @param {QueryParserService} queryService query service
+   * @memberof ActivityLogDbService
+   */
+  constructor(public readonly httpService: HttpService, public readonly queryService: QueryParserService) { super(httpService, queryService, "tenant_activity_log") }
+}

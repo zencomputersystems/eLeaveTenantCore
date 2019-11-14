@@ -49,7 +49,6 @@ export class SubscriptionService {
     model.PLAN = data.subscriptionPlan;
     model.STATUS = data.subscriptionStatus;
     model.QUOTA = data.subscriptionQuota;
-    model.USED_QUOTA = data.usedQuota;
     model.ACTIVATION_DATE = data.activationDate;
     model.LAST_BILLING_DATE = data.lastBillingDate;
     model.NEXT_BILLING_DATE = data.nextBillingDate;

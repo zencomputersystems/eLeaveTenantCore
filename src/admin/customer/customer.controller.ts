@@ -20,6 +20,29 @@ import { getResErr } from '../../common/helper/basic-function';
 @ApiBearerAuth()
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) { }
+
+  /**
+   * Get customer list
+   *
+   * @param {Response} res
+   * @memberof CustomerController
+   */
+  @UseGuards(RolesGuard)
+  @Roles('superadmin', 'salesperson', 'support')
+  @Get()
+  @ApiOperation({ title: 'Get all user', description: 'Get all user in local db. \nPermission : superadmin, salesperson, support' })
+  findAllCustomer(@Res() res: Response) {
+
+    this.customerService.getCustomer().subscribe(
+      data => {
+        res.send(data);
+      }, err => {
+        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No customer found', 'Failed to retrieve customer list'));
+      }
+    );
+
+  }
+
   /**
    * Create customer
    *
@@ -40,28 +63,6 @@ export class CustomerController {
         res.send(data.data.resource);
       }, err => {
         res.status(HttpStatus.CONFLICT).send(getResErr(err));
-      }
-    );
-
-  }
-
-  /**
-   * Get customer list
-   *
-   * @param {Response} res
-   * @memberof CustomerController
-   */
-  @UseGuards(RolesGuard)
-  @Roles('superadmin', 'salesperson', 'support')
-  @Get()
-  @ApiOperation({ title: 'Get all user', description: 'Get all user in local db. \nPermission : superadmin, salesperson, support' })
-  findAllCustomer(@Res() res: Response) {
-
-    this.customerService.getCustomer().subscribe(
-      data => {
-        res.send(data);
-      }, err => {
-        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No customer found', 'Failed to retrieve customer list'));
       }
     );
 

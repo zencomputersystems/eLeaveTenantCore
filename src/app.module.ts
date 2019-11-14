@@ -6,14 +6,16 @@ import { UserManagerModule } from './admin/user-manage/user-manage.module';
 import { RoleModule } from './admin/role/role.module';
 import { CustomerModule } from './admin/customer/customer.module';
 import { SubscriptionModule } from './admin/subscription/subscription.module';
+import { ActivityLogModule } from './admin/activity-log/activity-log.module';
 
 @Module({
   imports: [
     AuthModule,
-    UserManagerModule,
     RoleModule,
+    UserManagerModule,
     CustomerModule,
-    SubscriptionModule
+    SubscriptionModule,
+    ActivityLogModule
   ],
   controllers: [AppController],
   providers: [AppService],

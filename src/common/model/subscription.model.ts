@@ -48,13 +48,6 @@ export class SubscriptionModel {
    */
   QUOTA: number;
   /**
-   * Subscription used quota
-   *
-   * @type {number}
-   * @memberof SubscriptionModel
-   */
-  USED_QUOTA: number;
-  /**
    * Activation date timestamp
    *
    * @type {string}

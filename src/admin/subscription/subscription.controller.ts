@@ -19,21 +19,21 @@ export class SubscriptionController {
     private readonly subscriptionService: SubscriptionService,
     private readonly subscriptionDetailService: SubscriptionDetailService
   ) { }
-  @UseGuards(RolesGuard)
-  @Roles('superadmin', 'salesperson', 'support')
-  @Post()
-  @ApiOperation({ title: 'Create subscription', description: 'Create subscription in local db. \nPermission : superadmin, salesperson, support' })
-  createSubscription(@Body() subscriptionData: CreateSubscriptionDTO, @Req() req, @Res() res: Response) {
 
-    // process create new subscription
-    this.subscriptionService.createSubscription([subscriptionData, req.user]).subscribe(
+  @Get(':item/:subs_id')
+  @ApiOperation({ title: 'Get customer details by subscription id', description: 'Get customer details. \nPermission : all' })
+  @ApiImplicitParam({ name: 'item', description: 'Item details', enum: ['customer_info', 'company_info', 'customer_history', 'next_billing_date', 'usage'], required: true })
+  @ApiImplicitParam({ name: 'subs_id', description: 'Subscription guid', required: true })
+  getCustomerDetails(@Param() param, @Res() res) {
+    this.subscriptionDetailService.getData([param.subs_id]).subscribe(
       data => {
-        res.send(data.data.resource);
+        let dataRes: CustomerInfoDTO | CompanyInfoDTO | CustomerHistoryDTO | NextBillingDateDTO | UsageDTO;
+        dataRes = this.subscriptionDetailService.inputData([param.item, data]);
+        res.send(dataRes);
       }, err => {
-        res.status(HttpStatus.CONFLICT).send(getResErr(err));
+        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No data', 'Failed to get data'));
       }
     );
-
   }
 
   @UseGuards(RolesGuard)
@@ -54,6 +54,23 @@ export class SubscriptionController {
 
   @UseGuards(RolesGuard)
   @Roles('superadmin', 'salesperson', 'support')
+  @Post()
+  @ApiOperation({ title: 'Create subscription', description: 'Create subscription in local db. \nPermission : superadmin, salesperson, support' })
+  createSubscription(@Body() subscriptionData: CreateSubscriptionDTO, @Req() req, @Res() res: Response) {
+
+    // process create new subscription
+    this.subscriptionService.createSubscription([subscriptionData, req.user]).subscribe(
+      data => {
+        res.send(data.data.resource);
+      }, err => {
+        res.status(HttpStatus.CONFLICT).send(getResErr(err));
+      }
+    );
+
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles('superadmin', 'salesperson', 'support')
   @Patch()
   @ApiOperation({ title: 'Update subscription', description: 'Update a subscription in local db. \nPermission : superadmin, salesperson, support' })
   updateSubscription(@Body() updateSubscriptionData: UpdateSubscriptionDTO, @Req() req, @Res() res: Response) {
@@ -66,22 +83,6 @@ export class SubscriptionController {
       }
     );
 
-  }
-
-  @Get(':item/:subs_id')
-  @ApiOperation({ title: 'Get customer details by subscription id', description: 'Get customer details. \nPermission : all' })
-  @ApiImplicitParam({ name: 'item', description: 'Item details', enum: ['customer_info', 'company_info', 'customer_history', 'next_billing_date', 'usage'], required: true })
-  @ApiImplicitParam({ name: 'subs_id', description: 'Subscription guid', required: true })
-  getCustomerDetails(@Param() param, @Res() res) {
-    this.subscriptionDetailService.getData([param.item, param.subs_id]).subscribe(
-      data => {
-        let dataRes: CustomerInfoDTO | CompanyInfoDTO | CustomerHistoryDTO | NextBillingDateDTO | UsageDTO;
-        dataRes = this.subscriptionDetailService.inputData([param.item, data]);
-        res.send(dataRes);
-      }, err => {
-        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No data', 'Failed to get data'));
-      }
-    );
   }
 
 }
