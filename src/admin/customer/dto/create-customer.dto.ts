@@ -1,5 +1,5 @@
 import { ApiModelProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString, IsOptional } from "class-validator";
 
 /**
  * Data create customer
@@ -91,7 +91,8 @@ export class CreateCustomerDTO {
    * @type {string}
    * @memberof CreateCustomerDTO
    */
-  @ApiModelProperty({ description: 'Address 2', example: 'Empire City' })
+  @ApiModelProperty({ description: 'Address 2', example: 'Empire City', required: false })
+  @IsOptional()
   @IsNotEmpty()
   @IsString()
   address2: string;

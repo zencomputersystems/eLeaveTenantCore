@@ -36,7 +36,7 @@ describe('CustomerService', () => {
       };
 
       const CustomerDBServiceStub = {
-        findByFilterV4: ([fields, filters, order, limit, offset]: [string[], string[], string, number, number]) => ({
+        findByFilterV4: ([fields, filters, order, limit, offset, relations, group]: [string[], string[], string, number, number, string[], string]) => ({
         }),
 
         createByModel: ([resource, fields, filters, idFields]: [Resource, string[], string[], string[]]) => ({
@@ -239,13 +239,13 @@ describe('CustomerService', () => {
 
     it('Should call method get customer in db service costomer', () => {
       spyOn(DBService, 'findByFilterV4').and.callThrough();
-      DBService.findByFilterV4([null, null, null, null, null]);
+      DBService.findByFilterV4([null, null, null, null, null, null, null]);
       expect(DBService.findByFilterV4).toHaveBeenCalled();
     })
 
     it('Should call one time method get customer in db service costomer', () => {
       spyOn(DBService, 'findByFilterV4').and.callThrough();
-      DBService.findByFilterV4([null, null, null, null, null]);
+      DBService.findByFilterV4([null, null, null, null, null, null, null]);
       expect(DBService.findByFilterV4).toHaveBeenCalledTimes(1);
     })
 
@@ -388,13 +388,13 @@ describe('CustomerService', () => {
 
     it('Should call method get customer in db service costomer', () => {
       spyOn(DBService, 'findByFilterV4').and.callThrough();
-      DBService.findByFilterV4([null, null, null, null, null]);
+      DBService.findByFilterV4([null, null, null, null, null, null, null]);
       expect(DBService.findByFilterV4).toHaveBeenCalled();
     })
 
     it('Should call one time method get customer in db service costomer', () => {
       spyOn(DBService, 'findByFilterV4').and.callThrough();
-      DBService.findByFilterV4([null, null, null, null, null]);
+      DBService.findByFilterV4([null, null, null, null, null, null, null]);
       expect(DBService.findByFilterV4).toHaveBeenCalledTimes(1);
     })
 
@@ -520,13 +520,13 @@ describe('CustomerService', () => {
 
     it('Should call method get customer in db service costomer', () => {
       spyOn(DBService, 'findByFilterV4').and.callThrough();
-      DBService.findByFilterV4([null, null, null, null, null]);
+      DBService.findByFilterV4([null, null, null, null, null, null, null]);
       expect(DBService.findByFilterV4).toHaveBeenCalled();
     })
 
     it('Should call one time method get customer in db service costomer', () => {
       spyOn(DBService, 'findByFilterV4').and.callThrough();
-      DBService.findByFilterV4([null, null, null, null, null]);
+      DBService.findByFilterV4([null, null, null, null, null, null, null]);
       expect(DBService.findByFilterV4).toHaveBeenCalledTimes(1);
     })
 
@@ -652,13 +652,13 @@ describe('CustomerService', () => {
 
     it('Should call method get customer in db service costomer', () => {
       spyOn(DBService, 'findByFilterV4').and.callThrough();
-      DBService.findByFilterV4([null, null, null, null, null]);
+      DBService.findByFilterV4([null, null, null, null, null, null, null]);
       expect(DBService.findByFilterV4).toHaveBeenCalled();
     })
 
     it('Should call one time method get customer in db service costomer', () => {
       spyOn(DBService, 'findByFilterV4').and.callThrough();
-      DBService.findByFilterV4([null, null, null, null, null]);
+      DBService.findByFilterV4([null, null, null, null, null, null, null]);
       expect(DBService.findByFilterV4).toHaveBeenCalledTimes(1);
     })
 
@@ -784,13 +784,13 @@ describe('CustomerService', () => {
 
     it('Should call method get customer in db service costomer', () => {
       spyOn(DBService, 'findByFilterV4').and.callThrough();
-      DBService.findByFilterV4([null, null, null, null, null]);
+      DBService.findByFilterV4([null, null, null, null, null, null, null]);
       expect(DBService.findByFilterV4).toHaveBeenCalled();
     })
 
     it('Should call one time method get customer in db service costomer', () => {
       spyOn(DBService, 'findByFilterV4').and.callThrough();
-      DBService.findByFilterV4([null, null, null, null, null]);
+      DBService.findByFilterV4([null, null, null, null, null, null, null]);
       expect(DBService.findByFilterV4).toHaveBeenCalledTimes(1);
     })
 
