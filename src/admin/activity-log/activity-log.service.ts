@@ -39,7 +39,7 @@ export class ActivityLogService {
   }
 
   public getActivityLog([subscriptionGuid]: [string]) {
-    return this.activityLogDbService.findByFilterV4([[], ['(SUBSCRIPTION_GUID=' + subscriptionGuid + ')'], null, null, null, [], null]);
+    return this.activityLogDbService.findByFilterV4([[], ['(SUBSCRIPTION_GUID=' + subscriptionGuid + ')'], null, null, null, ['CREATOR_DATA', 'EDITOR_DATA'], null]);
   }
 
   public inputData([model, data]: [ActivityLogModel, UpdateActivityLogDTO | CreateActivityLogDTO]) {

@@ -1,3 +1,9 @@
+/**
+ * Model for create and update
+ *
+ * @export
+ * @class CreateUpdateModel
+ */
 export class CreateUpdateModel {
 
   /**
