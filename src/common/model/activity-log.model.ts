@@ -1,10 +1,12 @@
+import { CreateUpdateModel } from "./create-update.model";
+
 /**
  * Activity Log Model
  *
  * @export
  * @class ActivityLogModel
  */
-export class ActivityLogModel {
+export class ActivityLogModel extends CreateUpdateModel {
   /**
    * Log guid
    *
@@ -33,39 +35,4 @@ export class ActivityLogModel {
    * @memberof ActivityLogModel
    */
   MESSAGE: string;
-  /**
-   * Creation user guid
-   *
-   * @type {string}
-   * @memberof ActivityLogModel
-   */
-  CREATION_USER_GUID: string;
-  /**
-   * Creation timestamp
-   *
-   * @type {string}
-   * @memberof ActivityLogModel
-   */
-  CREATION_TS: string;
-  /**
-   * Update user guid
-   *
-   * @type {string}
-   * @memberof ActivityLogModel
-   */
-  UPDATE_USER_GUID: string;
-  /**
-   * Update timestamp
-   *
-   * @type {string}
-   * @memberof ActivityLogModel
-   */
-  UPDATE_TS: string;
-  /**
-   * Deleted timestamp
-   *
-   * @type {string}
-   * @memberof ActivityLogModel
-   */
-  DELETED_AT: string;
 }

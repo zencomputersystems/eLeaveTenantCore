@@ -1,10 +1,12 @@
+import { CreateUpdateModel } from "./create-update.model";
+
 /**
  * Customer model
  *
  * @export
  * @class CustomerModel
  */
-export class CustomerModel {
+export class CustomerModel extends CreateUpdateModel {
   /**
    * Customer id
    *
@@ -110,39 +112,4 @@ export class CustomerModel {
    * @memberof CustomerModel
    */
   SALESPERSON: string;
-  /**
-   * Creation timestamp
-   *
-   * @type {string}
-   * @memberof CustomerModel
-   */
-  CREATION_TS: string;
-  /**
-   * Creation user guid
-   *
-   * @type {string}
-   * @memberof CustomerModel
-   */
-  CREATION_USER_GUID: string;
-  /**
-   * Update timestamp
-   *
-   * @type {string}
-   * @memberof CustomerModel
-   */
-  UPDATE_TS: string;
-  /**
-   * Update user guid
-   *
-   * @type {string}
-   * @memberof CustomerModel
-   */
-  UPDATE_USER_GUID: string;
-  /**
-   * Deleted timestamp
-   *
-   * @type {string}
-   * @memberof CustomerModel
-   */
-  DELETED_AT: string;
 }

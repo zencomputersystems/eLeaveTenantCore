@@ -1,10 +1,12 @@
+import { CreateUpdateModel } from "./create-update.model";
+
 /**
  * Subscription model
  *
  * @export
  * @class SubscriptionModel
  */
-export class SubscriptionModel {
+export class SubscriptionModel extends CreateUpdateModel {
   /**
    * Subscription guid
    *
@@ -89,39 +91,4 @@ export class SubscriptionModel {
    * @memberof SubscriptionModel
    */
   BILLING_CYCLE: number;
-  /**
-   * Creation timestamp
-   *
-   * @type {string}
-   * @memberof SubscriptionModel
-   */
-  CREATION_TS: string;
-  /**
-   * Creation user guid
-   *
-   * @type {string}
-   * @memberof SubscriptionModel
-   */
-  CREATION_USER_GUID: string;
-  /**
-   * Update timestamp
-   *
-   * @type {string}
-   * @memberof SubscriptionModel
-   */
-  UPDATE_TS: string;
-  /**
-   * Update user guid
-   *
-   * @type {string}
-   * @memberof SubscriptionModel
-   */
-  UPDATE_USER_GUID: string;
-  /**
-   * Deleted timestamp
-   *
-   * @type {string}
-   * @memberof SubscriptionModel
-   */
-  DELETED_AT: string;
 }
