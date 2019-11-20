@@ -8,9 +8,28 @@ import { Resource } from "../../common/model/resource.model";
 import { UpdateCustomerDTO } from './dto/update-customer.dto';
 import { setUpdateData } from "../../common/helper/basic-function";
 
+/**
+ * Service for customer
+ *
+ * @export
+ * @class CustomerService
+ */
 @Injectable()
 export class CustomerService {
+  /**
+   *Creates an instance of CustomerService.
+   * @param {CustomerDbService} customerDbService DB service for customer
+   * @memberof CustomerService
+   */
   constructor(private readonly customerDbService: CustomerDbService) { }
+
+  /**
+   * Create customer
+   *
+   * @param {[CreateCustomerDTO, UserMainModel]} [customerData, req]
+   * @returns
+   * @memberof CustomerService
+   */
   public createCustomer([customerData, req]: [CreateCustomerDTO, UserMainModel]) {
     const data = new CustomerModel();
 
@@ -24,10 +43,23 @@ export class CustomerService {
     return this.customerDbService.createByModel([resource, [], [], []]);
   }
 
+  /**
+   * Get customer
+   *
+   * @returns
+   * @memberof CustomerService
+   */
   public getCustomer() {
     return this.customerDbService.findByFilterV4([[], [], null, null, null, [], null]);
   }
 
+  /**
+   * Update customer
+   *
+   * @param {[UpdateCustomerDTO, UserMainModel]} [editCustomerData, req]
+   * @returns
+   * @memberof CustomerService
+   */
   public updateCustomer([editCustomerData, req]: [UpdateCustomerDTO, UserMainModel]) {
     const data = new CustomerModel();
 
@@ -41,6 +73,13 @@ export class CustomerService {
     return this.customerDbService.updateByModel([resource, [], [], []]);
   }
 
+  /**
+   * Input data create and update customer
+   *
+   * @param {([CustomerModel, UpdateCustomerDTO | CreateCustomerDTO])} [model, data]
+   * @returns
+   * @memberof CustomerService
+   */
   public inputData([model, data]: [CustomerModel, UpdateCustomerDTO | CreateCustomerDTO]) {
     model.CUSTOMER_LABEL = data.customerLabel;
     model.FULLNAME = data.fullname;

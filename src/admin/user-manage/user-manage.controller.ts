@@ -9,13 +9,31 @@ import { encryptProcess, getResErr } from '../../common/helper/basic-function';
 import { Response } from 'express';
 import { UpdateUserMainDTO } from './dto/update-user-main.dto';
 
+/**
+ * Controller user manager
+ *
+ * @export
+ * @class UserManageController
+ */
 @Controller('api/admin/user-manage')
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class UserManageController {
 
+  /**
+   *Creates an instance of UserManageController.
+   * @param {UserManageService} userManageService Service user manager
+   * @memberof UserManageController
+   */
   constructor(private readonly userManageService: UserManageService) { }
 
+  /**
+   * Get user admin
+   *
+   * @param {*} roleData
+   * @param {*} res
+   * @memberof UserManageController
+   */
   @UseGuards(RolesGuard)
   @Roles('salesperson', 'superadmin')
   @Get(':role')
@@ -31,6 +49,14 @@ export class UserManageController {
     );
   }
 
+  /**
+   * Sign up new user
+   *
+   * @param {SignupDTO} signupData
+   * @param {*} req
+   * @param {Response} res
+   * @memberof UserManageController
+   */
   @UseGuards(RolesGuard)
   @Roles('superadmin')
   @Post('sign-up')
@@ -51,6 +77,14 @@ export class UserManageController {
 
   }
 
+  /**
+   * Update user main
+   *
+   * @param {UpdateUserMainDTO} updateUserMainDto
+   * @param {*} req
+   * @param {Response} res
+   * @memberof UserManageController
+   */
   @Patch('user-main')
   @ApiOperation({ title: 'Update user details', description: 'Update user main details. \nPermission : all' })
   updateUserMain(@Body() updateUserMainDto: UpdateUserMainDTO, @Req() req, @Res() res: Response) {

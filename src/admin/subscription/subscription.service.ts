@@ -8,10 +8,28 @@ import { v1 } from "uuid";
 import { UpdateSubscriptionDTO } from './dto/update-subscription.dto';
 import { setUpdateData } from "../../common/helper/basic-function";
 
+/**
+ * Service subscription
+ *
+ * @export
+ * @class SubscriptionService
+ */
 @Injectable()
 export class SubscriptionService {
+  /**
+   *Creates an instance of SubscriptionService.
+   * @param {SubscriptionDbService} subscriptionDbService DB service for subscription
+   * @memberof SubscriptionService
+   */
   constructor(private readonly subscriptionDbService: SubscriptionDbService) { }
 
+  /**
+   * Create subscription
+   *
+   * @param {[CreateSubscriptionDTO, UserMainModel]} [subscriptionData, req]
+   * @returns
+   * @memberof SubscriptionService
+   */
   public createSubscription([subscriptionData, req]: [CreateSubscriptionDTO, UserMainModel]) {
     const data = new SubscriptionModel();
 
@@ -26,10 +44,23 @@ export class SubscriptionService {
     return this.subscriptionDbService.createByModel([resource, [], [], []]);
   }
 
+  /**
+   * Get subscription
+   *
+   * @returns
+   * @memberof SubscriptionService
+   */
   public getSubscription() {
     return this.subscriptionDbService.findByFilterV4([[], [], null, null, null, [], null]);
   }
 
+  /**
+   * Update subscription
+   *
+   * @param {[UpdateSubscriptionDTO, UserMainModel]} [editSubscriptionData, req]
+   * @returns
+   * @memberof SubscriptionService
+   */
   public updateSubscription([editSubscriptionData, req]: [UpdateSubscriptionDTO, UserMainModel]) {
     const data = new SubscriptionModel
 
@@ -43,6 +74,13 @@ export class SubscriptionService {
     return this.subscriptionDbService.updateByModel([resource, [], [], []]);
   }
 
+  /**
+   * Input data subscription to create and update
+   *
+   * @param {([SubscriptionModel, UpdateSubscriptionDTO | CreateSubscriptionDTO])} [model, data]
+   * @returns
+   * @memberof SubscriptionService
+   */
   public inputDataSubscription([model, data]: [SubscriptionModel, UpdateSubscriptionDTO | CreateSubscriptionDTO]) {
 
     model.CUSTOMER_GUID = data.customerGuid;

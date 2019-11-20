@@ -7,11 +7,29 @@ import { UserMainModel } from '../../common/model/user-main.model';
 import { UpdateUserMainDTO } from '../user-manage/dto/update-user-main.dto';
 import { setUpdateData } from '../../common/helper/basic-function';
 
+/**
+ * Service for user
+ *
+ * @export
+ * @class UserService
+ */
 @Injectable()
 export class UserService {
 
+  /**
+   *Creates an instance of UserService.
+   * @param {UserDbService} userDbService DB service for user
+   * @memberof UserService
+   */
   constructor(public readonly userDbService: UserDbService) { }
 
+  /**
+   * Sign up process
+   *
+   * @param {[SignupDTO, string, UserMainModel]} [signupData, cipherPassword, req]
+   * @returns
+   * @memberof UserService
+   */
   public signUpUserAdmin([signupData, cipherPassword, req]: [SignupDTO, string, UserMainModel]) {
 
     const data = new UserMainModel();
@@ -32,6 +50,13 @@ export class UserService {
 
   }
 
+  /**
+   * Update user main
+   *
+   * @param {[UpdateUserMainDTO, UserMainModel]} [updateUserMainData, req]
+   * @returns
+   * @memberof UserService
+   */
   public updateUserMain([updateUserMainData, req]: [UpdateUserMainDTO, UserMainModel]) {
     const data = new UserMainModel();
 
@@ -48,6 +73,14 @@ export class UserService {
     return this.userDbService.updateByModel([resource, [], [], []]);
   }
 
+  /**
+   * Find one data
+   *
+   * @param {string} loginId
+   * @param {string} password
+   * @returns {Promise<any>}
+   * @memberof UserService
+   */
   public async findOne(loginId: string, password: string): Promise<any> {
     const fields = ['USER_GUID', 'LOGIN_ID', 'PASSWORD', 'EMAIL', 'FULLNAME', 'ROLE', 'ACTIVATION_FLAG'];
     const filters = ['(LOGIN_ID=' + loginId + ')'];
@@ -57,6 +90,13 @@ export class UserService {
 
   }
 
+  /**
+   * Find one data by payload JWT
+   *
+   * @param {*} payload
+   * @returns {Promise<any>}
+   * @memberof UserService
+   */
   public async findOneByPayload(payload): Promise<any> {
     const fields = ['USER_GUID', 'LOGIN_ID', 'PASSWORD', 'EMAIL', 'FULLNAME', 'ROLE', 'ACTIVATION_FLAG'];
     const filters = ['(EMAIL=' + payload.email + ')', '(USER_GUID=' + payload.userId + ')', '(LOGIN_ID=' + payload.loginId + ')']

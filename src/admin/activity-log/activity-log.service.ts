@@ -8,11 +8,29 @@ import { ActivityLogDbService } from '../../common/db/table.db.service';
 import { UpdateActivityLogDTO } from './dto/update-activity-log.dto';
 import { setUpdateData } from '../../common/helper/basic-function';
 
+/**
+ * Service for activity log
+ *
+ * @export
+ * @class ActivityLogService
+ */
 @Injectable()
 export class ActivityLogService {
 
+  /**
+   *Creates an instance of ActivityLogService.
+   * @param {ActivityLogDbService} activityLogDbService DB service for activity log
+   * @memberof ActivityLogService
+   */
   constructor(private readonly activityLogDbService: ActivityLogDbService) { }
 
+  /**
+   * Create activity log
+   *
+   * @param {[CreateActivityLogDTO, UserMainModel]} [activityLogData, req]
+   * @returns
+   * @memberof ActivityLogService
+   */
   public createActivityLog([activityLogData, req]: [CreateActivityLogDTO, UserMainModel]) {
     const data = new ActivityLogModel();
 
@@ -26,6 +44,13 @@ export class ActivityLogService {
     return this.activityLogDbService.createByModel([resource, [], [], []]);
   }
 
+  /**
+   * Update activity log
+   *
+   * @param {[UpdateActivityLogDTO, UserMainModel]} [editActivityLogData, req]
+   * @returns
+   * @memberof ActivityLogService
+   */
   public updateActivityLog([editActivityLogData, req]: [UpdateActivityLogDTO, UserMainModel]) {
     const data = new ActivityLogModel();
 
@@ -38,10 +63,24 @@ export class ActivityLogService {
     return this.activityLogDbService.updateByModel([resource, [], [], []]);
   }
 
+  /**
+   * Get activity log
+   *
+   * @param {[string]} [subscriptionGuid]
+   * @returns
+   * @memberof ActivityLogService
+   */
   public getActivityLog([subscriptionGuid]: [string]) {
     return this.activityLogDbService.findByFilterV4([[], ['(SUBSCRIPTION_GUID=' + subscriptionGuid + ')'], null, null, null, ['CREATOR_DATA', 'EDITOR_DATA'], null]);
   }
 
+  /**
+   * Input data create and update activity log
+   *
+   * @param {([ActivityLogModel, UpdateActivityLogDTO | CreateActivityLogDTO])} [model, data]
+   * @returns
+   * @memberof ActivityLogService
+   */
   public inputData([model, data]: [ActivityLogModel, UpdateActivityLogDTO | CreateActivityLogDTO]) {
     model.CUSTOMER_GUID = data.customerId;
     model.SUBSCRIPTION_GUID = data.subscriptionId

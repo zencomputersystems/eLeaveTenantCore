@@ -1,15 +1,40 @@
 import { Injectable, BadRequestException } from "@nestjs/common";
-import { of } from "rxjs";
 import { SubscriptionDbService } from '../../common/db/table.db.service';
 import { CustomerInfoDTO, CompanyInfoDTO, CustomerHistoryDTO, NextBillingDateDTO, UsageDTO, CompanyDataDTO } from './dto/results-item.dto';
 
+/**
+ * Service for subscription details
+ *
+ * @export
+ * @class SubscriptionDetailService
+ */
 @Injectable()
 export class SubscriptionDetailService {
+  /**
+   *Creates an instance of SubscriptionDetailService.
+   * @param {SubscriptionDbService} subscriptionDbService DB service for subscription
+   * @memberof SubscriptionDetailService
+   */
   constructor(private subscriptionDbService: SubscriptionDbService) { }
+
+  /**
+   * Get subscription data
+   *
+   * @param {[string]} [subsId]
+   * @returns
+   * @memberof SubscriptionDetailService
+   */
   public getData([subsId]: [string]) {
     return this.subscriptionDbService.findByFilterV4([[], ['(SUBSCRIPTION_GUID=' + subsId + ')'], null, null, null, ['CUSTOMER_DATA', 'QUOTA_DATA', 'COMPANY_DATA'], null]);
   }
 
+  /**
+   * Filter input data parameter
+   *
+   * @param {[string, string[]]} [item, data]
+   * @returns
+   * @memberof SubscriptionDetailService
+   */
   public inputData([item, data]: [string, string[]]) {
     let inputObj;
     if (data.length > 0) {
@@ -25,6 +50,13 @@ export class SubscriptionDetailService {
 
   }
 
+  /**
+   * Assign customer info results
+   *
+   * @param {[CustomerInfoDTO, any]} [inputObj, data]
+   * @returns
+   * @memberof SubscriptionDetailService
+   */
   public assignCustomerInfo([inputObj, data]: [CustomerInfoDTO, any]) {
     inputObj = new CustomerInfoDTO;
     if (data[0].CUSTOMER_DATA.length > 0) {
@@ -47,6 +79,12 @@ export class SubscriptionDetailService {
     return inputObj;
   }
 
+  /**
+   * Assign subscription info results
+   *
+   * @param {[CustomerInfoDTO, any]} [inputObj, data]
+   * @memberof SubscriptionDetailService
+   */
   public assignSubscriptionInfo([inputObj, data]: [CustomerInfoDTO, any]) {
     inputObj.subscription_id = data[0].SUBSCRIPTION_GUID;
     inputObj.subscription_label = data[0].SUBSCRIPTION_LABEL;
@@ -63,6 +101,13 @@ export class SubscriptionDetailService {
     inputObj.billing_cycle = data[0].BILLING_CYCLE;
   }
 
+  /**
+   * Assign company info results
+   *
+   * @param {[CompanyInfoDTO, any]} [inputObj, data]
+   * @returns
+   * @memberof SubscriptionDetailService
+   */
   public assignCompanyInfo([inputObj, data]: [CompanyInfoDTO, any]) {
     let companyArr = [];
     let companyData = new CompanyDataDTO;
@@ -85,6 +130,13 @@ export class SubscriptionDetailService {
 
     return companyData;
   }
+  /**
+   * Assign customer history results
+   *
+   * @param {[CustomerHistoryDTO, any]} [inputObj, data]
+   * @returns
+   * @memberof SubscriptionDetailService
+   */
   public assignCustomerHistory([inputObj, data]: [CustomerHistoryDTO, any]) {
     inputObj = new CustomerHistoryDTO;
 
@@ -95,11 +147,25 @@ export class SubscriptionDetailService {
 
     return inputObj;
   }
+  /**
+   * Assign next billing date results
+   *
+   * @param {[NextBillingDateDTO, any]} [inputObj, data]
+   * @returns
+   * @memberof SubscriptionDetailService
+   */
   public assignNextBillingDate([inputObj, data]: [NextBillingDateDTO, any]) {
     inputObj = new NextBillingDateDTO;
     inputObj.next_billing_date = data[0].NEXT_BILLING_DATE;
     return inputObj;
   }
+  /**
+   * Assign usage results
+   *
+   * @param {[UsageDTO, any]} [inputObj, data]
+   * @returns
+   * @memberof SubscriptionDetailService
+   */
   public assignUsage([inputObj, data]: [UsageDTO, any]) {
     inputObj = new UsageDTO;
 

@@ -11,15 +11,34 @@ import { SubscriptionDetailService } from "./subscription-detail.service";
 import { CustomerInfoDTO, CompanyInfoDTO, CustomerHistoryDTO, NextBillingDateDTO, UsageDTO } from './dto/results-item.dto';
 import { getResErr } from '../../common/helper/basic-function';
 
+/**
+ * Controller for subscription
+ *
+ * @export
+ * @class SubscriptionController
+ */
 @Controller('api/admin/subscription')
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class SubscriptionController {
+  /**
+   *Creates an instance of SubscriptionController.
+   * @param {SubscriptionService} subscriptionService Service for subscription
+   * @param {SubscriptionDetailService} subscriptionDetailService DB Service for subscription
+   * @memberof SubscriptionController
+   */
   constructor(
     private readonly subscriptionService: SubscriptionService,
     private readonly subscriptionDetailService: SubscriptionDetailService
   ) { }
 
+  /**
+   * Get customer details
+   *
+   * @param {*} param
+   * @param {*} res
+   * @memberof SubscriptionController
+   */
   @Get(':item/:subs_id')
   @ApiOperation({ title: 'Get customer details by subscription id', description: 'Get customer details. \nPermission : all' })
   @ApiImplicitParam({ name: 'item', description: 'Item details', enum: ['customer_info', 'company_info', 'customer_history', 'next_billing_date', 'usage'], required: true })
@@ -36,6 +55,12 @@ export class SubscriptionController {
     );
   }
 
+  /**
+   * Find all subscription
+   *
+   * @param {Response} res
+   * @memberof SubscriptionController
+   */
   @UseGuards(RolesGuard)
   @Roles('superadmin', 'salesperson', 'support')
   @Get()
@@ -52,6 +77,14 @@ export class SubscriptionController {
 
   }
 
+  /**
+   * Create subscription
+   *
+   * @param {CreateSubscriptionDTO} subscriptionData
+   * @param {*} req
+   * @param {Response} res
+   * @memberof SubscriptionController
+   */
   @UseGuards(RolesGuard)
   @Roles('superadmin', 'salesperson', 'support')
   @Post()
@@ -69,6 +102,14 @@ export class SubscriptionController {
 
   }
 
+  /**
+   * Update subscription
+   *
+   * @param {UpdateSubscriptionDTO} updateSubscriptionData
+   * @param {*} req
+   * @param {Response} res
+   * @memberof SubscriptionController
+   */
   @UseGuards(RolesGuard)
   @Roles('superadmin', 'salesperson', 'support')
   @Patch()

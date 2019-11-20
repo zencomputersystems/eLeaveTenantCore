@@ -7,12 +7,30 @@ import { Response } from 'express';
 import { getResErr } from '../../common/helper/basic-function';
 import { UpdateActivityLogDTO } from "./dto/update-activity-log.dto";
 
+/**
+ * Controller for activity log
+ *
+ * @export
+ * @class ActivityLogController
+ */
 @Controller('api/admin/activity-log')
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class ActivityLogController {
+  /**
+   *Creates an instance of ActivityLogController.
+   * @param {ActivityLogService} activityLogService Service for activity log
+   * @memberof ActivityLogController
+   */
   constructor(private readonly activityLogService: ActivityLogService) { }
 
+  /**
+   * Find all activity log
+   *
+   * @param {string} id
+   * @param {Response} res
+   * @memberof ActivityLogController
+   */
   @Get(':id')
   @ApiOperation({ title: 'Get all activity log by subscription guid', description: 'Get all activity log in local db. \nPermission : all' })
   @ApiImplicitParam({ name: 'id', description: 'Subscription guid to get activity log', required: true })
@@ -28,6 +46,14 @@ export class ActivityLogController {
 
   }
 
+  /**
+   * Create activity log
+   *
+   * @param {CreateActivityLogDTO} activityLogData
+   * @param {*} req
+   * @param {Response} res
+   * @memberof ActivityLogController
+   */
   @Post()
   @ApiOperation({ title: 'Create activity log', description: 'Create activity log in local db. \nPermission : all' })
   createActivatyLog(@Body() activityLogData: CreateActivityLogDTO, @Req() req, @Res() res: Response) {
@@ -43,6 +69,14 @@ export class ActivityLogController {
 
   }
 
+  /**
+   * Update activity log
+   *
+   * @param {UpdateActivityLogDTO} updateActivityLogData
+   * @param {*} req
+   * @param {Response} res
+   * @memberof ActivityLogController
+   */
   @Patch()
   @ApiOperation({ title: 'Update user', description: 'Update a user in local db. \nPermission : all' })
   updateActivityLog(@Body() updateActivityLogData: UpdateActivityLogDTO, @Req() req, @Res() res: Response) {
