@@ -1,12 +1,12 @@
 
-import { CustomerService } from './customer.service';
+import { CustomerService } from '../../../src/admin/customer/customer.service';
 import { Test } from '@nestjs/testing';
-import { CreateCustomerDTO } from './dto/create-customer.dto';
-import { UserMainModel } from '../../common/model/user-main.model';
-import { UpdateCustomerDTO } from './dto/update-customer.dto';
-import { CustomerDbService } from '../../common/db/table.db.service';
-import { Resource } from '../../common/model/resource.model';
-import { CustomerModel } from '../../common/model/customer.model';
+import { CreateCustomerDTO } from '../../../src/admin/customer/dto/create-customer.dto';
+import { UserMainModel } from '../../../src/common/model/user-main.model';
+import { UpdateCustomerDTO } from '../../../src/admin/customer/dto/update-customer.dto';
+import { CustomerDbService } from '../../../src/common/db/table.db.service';
+import { Resource } from '../../../src/common/model/resource.model';
+import { CustomerModel } from '../../../src/common/model/customer.model';
 
 describe('CustomerService', () => {
   let Service: CustomerService;

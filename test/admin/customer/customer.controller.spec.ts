@@ -1,10 +1,10 @@
 
-import { CustomerController } from './customer.controller';
-import { CustomerService } from './customer.service';
+import { CustomerController } from '../../../src/admin/customer/customer.controller';
+import { CustomerService } from '../../../src/admin/customer/customer.service';
 import { Test } from '@nestjs/testing';
-import { CreateCustomerDTO } from './dto/create-customer.dto';
-import { UserMainModel } from '../../common/model/user-main.model';
-import { UpdateCustomerDTO } from './dto/update-customer.dto';
+import { CreateCustomerDTO } from '../../../src/admin/customer/dto/create-customer.dto';
+import { UserMainModel } from '../../../src/common/model/user-main.model';
+import { UpdateCustomerDTO } from '../../../src/admin/customer/dto/update-customer.dto';
 
 describe('CustomerController', () => {
   let Controller: CustomerController;
