@@ -56,7 +56,7 @@ export class ActivityLogController {
    */
   @Post()
   @ApiOperation({ title: 'Create activity log', description: 'Create activity log in local db. \nPermission : all' })
-  createActivatyLog(@Body() activityLogData: CreateActivityLogDTO, @Req() req, @Res() res: Response) {
+  createActivityLog(@Body() activityLogData: CreateActivityLogDTO, @Req() req, @Res() res: Response) {
 
     // process create activity log
     this.activityLogService.createActivityLog([activityLogData, req.user]).subscribe(

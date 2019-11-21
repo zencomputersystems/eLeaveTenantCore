@@ -134,36 +134,36 @@ describe('CustomerController', () => {
   // Create customer method
   describe('Create Customer', () => {
     // Controller
-    it('Should not call method create customer in controller costomer', () => {
+    it('Should not call method create customer in controller customer', () => {
       spyOn(Controller, 'createCustomer').and.callThrough();
       expect(Controller.createCustomer).not.toHaveBeenCalled();
     })
 
-    it('Should call method create customer in controller costomer', () => {
+    it('Should call method create customer in controller customer', () => {
       spyOn(Controller, 'createCustomer').and.callThrough();
       Controller.createCustomer(CreateData, null, null);
       expect(Controller.createCustomer).toHaveBeenCalled();
     })
 
-    it('Should call one time method create customer in controller costomer', () => {
+    it('Should call one time method create customer in controller customer', () => {
       spyOn(Controller, 'createCustomer').and.callThrough();
       Controller.createCustomer(CreateData, null, null);
       expect(Controller.createCustomer).toHaveBeenCalledTimes(1);
     })
 
     // Service
-    it('Should not call method create customer in service costomer', () => {
+    it('Should not call method create customer in service customer', () => {
       spyOn(Service, 'createCustomer').and.callThrough();
       expect(Service.createCustomer).not.toHaveBeenCalled();
     })
 
-    it('Should call method create customer in service costomer', () => {
+    it('Should call method create customer in service customer', () => {
       spyOn(Service, 'createCustomer').and.callThrough();
       Service.createCustomer([CreateData, UserMainModelData]);
       expect(Service.createCustomer).toHaveBeenCalled();
     })
 
-    it('Should call one time method create customer in service costomer', () => {
+    it('Should call one time method create customer in service customer', () => {
       spyOn(Service, 'createCustomer').and.callThrough();
       Service.createCustomer([CreateData, UserMainModelData]);
       expect(Service.createCustomer).toHaveBeenCalledTimes(1);
@@ -174,36 +174,36 @@ describe('CustomerController', () => {
   // Get customer method
   describe('Get Customer', () => {
     // Controller
-    it('Should not call method get customer in controller costomer', () => {
+    it('Should not call method get customer in controller customer', () => {
       spyOn(Controller, 'findAllCustomer').and.callThrough();
       expect(Controller.findAllCustomer).not.toHaveBeenCalled();
     })
 
-    it('Should call method get customer in controller costomer', () => {
+    it('Should call method get customer in controller customer', () => {
       spyOn(Controller, 'findAllCustomer').and.callThrough();
       Controller.findAllCustomer(null);
       expect(Controller.findAllCustomer).toHaveBeenCalled();
     })
 
-    it('Should call one time method get customer in controller costomer', () => {
+    it('Should call one time method get customer in controller customer', () => {
       spyOn(Controller, 'findAllCustomer').and.callThrough();
       Controller.findAllCustomer(null);
       expect(Controller.findAllCustomer).toHaveBeenCalledTimes(1);
     })
 
     // Service
-    it('Should not call method get customer in service costomer', () => {
+    it('Should not call method get customer in service customer', () => {
       spyOn(Service, 'getCustomer').and.callThrough();
       expect(Service.getCustomer).not.toHaveBeenCalled();
     })
 
-    it('Should call method get customer in service costomer', () => {
+    it('Should call method get customer in service customer', () => {
       spyOn(Service, 'getCustomer').and.callThrough();
       Service.getCustomer();
       expect(Service.getCustomer).toHaveBeenCalled();
     })
 
-    it('Should call one time method get customer in service costomer', () => {
+    it('Should call one time method get customer in service customer', () => {
       spyOn(Service, 'getCustomer').and.callThrough();
       Service.getCustomer();
       expect(Service.getCustomer).toHaveBeenCalledTimes(1);
@@ -215,36 +215,36 @@ describe('CustomerController', () => {
   // Update customer method
   describe('Update Customer', () => {
     // Controller
-    it('Should not call method update customer in controller costomer', () => {
+    it('Should not call method update customer in controller customer', () => {
       spyOn(Controller, 'updateCustomer').and.callThrough();
       expect(Controller.updateCustomer).not.toHaveBeenCalled();
     })
 
-    it('Should call method update customer in controller costomer', () => {
+    it('Should call method update customer in controller customer', () => {
       spyOn(Controller, 'updateCustomer').and.callThrough();
       Controller.updateCustomer(UpdateData, null, null);
       expect(Controller.updateCustomer).toHaveBeenCalled();
     })
 
-    it('Should call one time method update customer in controller costomer', () => {
+    it('Should call one time method update customer in controller customer', () => {
       spyOn(Controller, 'updateCustomer').and.callThrough();
       Controller.updateCustomer(UpdateData, null, null);
       expect(Controller.updateCustomer).toHaveBeenCalledTimes(1);
     })
 
     // Service
-    it('Should not call method update customer in service costomer', () => {
+    it('Should not call method update customer in service customer', () => {
       spyOn(Service, 'updateCustomer').and.callThrough();
       expect(Service.updateCustomer).not.toHaveBeenCalled();
     })
 
-    it('Should call method update customer in service costomer', () => {
+    it('Should call method update customer in service customer', () => {
       spyOn(Service, 'updateCustomer').and.callThrough();
       Service.updateCustomer([UpdateData, UserMainModelData]);
       expect(Service.updateCustomer).toHaveBeenCalled();
     })
 
-    it('Should call one time method update customer in service costomer', () => {
+    it('Should call one time method update customer in service customer', () => {
       spyOn(Service, 'updateCustomer').and.callThrough();
       Service.updateCustomer([UpdateData, UserMainModelData]);
       expect(Service.updateCustomer).toHaveBeenCalledTimes(1);
