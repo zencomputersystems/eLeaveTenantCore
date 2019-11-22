@@ -36,11 +36,32 @@ export class UserManageController {
    */
   @UseGuards(RolesGuard)
   @Roles('salesperson', 'superadmin')
+  @Get('personal-detail')
+  @ApiOperation({ title: 'Get user personal detail', description: 'Get user detail' })
+  getPersonalDetail(@Req() req, @Res() res) {
+    this.userManageService.getAdminUser([null, req.user.USER_GUID]).subscribe(
+      data => {
+        res.send(data);
+      }, err => {
+        res.status(HttpStatus.BAD_REQUEST).send(err);
+      }
+    );
+  }
+
+  /**
+   * Get user admin
+   *
+   * @param {*} roleData
+   * @param {*} res
+   * @memberof UserManageController
+   */
+  @UseGuards(RolesGuard)
+  @Roles('salesperson', 'superadmin')
   @Get(':role')
   @ApiOperation({ title: 'Get user by role', description: 'Get user list by specify role. \nPermission : superadmin, salesperson' })
   @ApiImplicitParam({ name: 'role', description: 'Role to filter', required: true, enum: ['all', 'salesperson', 'superadmin', 'support'] })
   getUserAdmin(@Param('role') roleData, @Res() res) {
-    this.userManageService.getAdminUser(roleData).subscribe(
+    this.userManageService.getAdminUser([roleData, null]).subscribe(
       data => {
         res.send(data);
       }, err => {

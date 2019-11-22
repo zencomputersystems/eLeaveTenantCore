@@ -42,17 +42,20 @@ export class UserManageService {
     return this.userService.updateUserMain([UpdateUserMainDTO, req]);
   }
 
+
   /**
-   *  Get admin user
+   * Get admin user
    *
-   * @param {string} role
+   * @param {[string, string]} [role, userGuid]
    * @returns
    * @memberof UserManageService
    */
-  public getAdminUser(role: string) {
+  public getAdminUser([role, userGuid]: [string, string]) {
     const field = ['USER_GUID', 'EMAIL', 'FULLNAME', 'ROLE', 'ACTIVATION_FLAG'];
     let filter = ['(ROLE=' + role + ')'];
     filter = role == 'all' ? [] : filter;
+    filter = role == null ? ['(USER_GUID=' + userGuid + ')'] : filter;
     return this.userService.userDbService.findByFilterV4([field, filter, null, null, null, [], null]);
   }
+
 }
