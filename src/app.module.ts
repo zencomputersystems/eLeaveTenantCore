@@ -8,6 +8,7 @@ import { CustomerModule } from './admin/customer/customer.module';
 import { SubscriptionModule } from './admin/subscription/subscription.module';
 import { ActivityLogModule } from './admin/activity-log/activity-log.module';
 import { ForgotPasswordModule } from './admin/forgot-password/forgot-password.module';
+import { DashboardModule } from './admin/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { ForgotPasswordModule } from './admin/forgot-password/forgot-password.mo
     UserManagerModule,
     CustomerModule,
     SubscriptionModule,
-    ActivityLogModule
+    ActivityLogModule,
+    DashboardModule
   ],
   controllers: [AppController],
   providers: [AppService],

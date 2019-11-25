@@ -103,3 +103,21 @@ export class ActivityLogDbService extends BaseDBService {
    */
   constructor(public readonly httpService: HttpService, public readonly queryService: QueryParserService) { super(httpService, queryService, "tenant_activity_log") }
 }
+
+/**
+ * DB table : tenant view statistic : t_view_statistic
+ *
+ * @export
+ * @class StatisticDbService
+ * @extends {BaseDBService}
+ */
+@Injectable()
+export class StatisticDbService extends BaseDBService {
+  /**
+   *Creates an instance of RoleDbService.
+   * @param {HttpService} httpService http service
+   * @param {QueryParserService} queryService query service
+   * @memberof RoleDbService
+   */
+  constructor(public readonly httpService: HttpService, public readonly queryService: QueryParserService) { super(httpService, queryService, "t_view_statistic") }
+}
