@@ -1,5 +1,5 @@
-import { Controller, Body, Res, NotFoundException, Patch } from '@nestjs/common';
-import { ApiOperation } from "@nestjs/swagger";
+import { Controller, Body, Res, NotFoundException, Patch, Post, Param, Req } from '@nestjs/common';
+import { ApiOperation, ApiImplicitParam } from "@nestjs/swagger";
 import { ForgotPasswordService } from './forgot-password.service';
 import { NewPasswordDTO } from './dto/new-password.dto';
 import { Response } from 'express';
@@ -38,5 +38,30 @@ export class ForgotPasswordController {
     );
 
   }
+
+  /**
+   * Send email to reset password
+   *
+   * @param {*} email
+   * @param {*} req
+   * @param {*} res
+   * @memberof ForgotPasswordController
+   */
+  @Post(':email')
+  @ApiOperation({ title: 'Send email forgot password' })
+  @ApiImplicitParam({ name: 'email', description: 'Email user', required: true })
+  create(@Param('email') email, @Req() req, @Res() res) {
+
+    this.forgotPasswordService.forgotPasswordProcess(email).subscribe(
+      data => {
+        res.send(data);
+      }, err => {
+        res.send(err);
+      }
+    );
+
+  }
+
+
 
 }
