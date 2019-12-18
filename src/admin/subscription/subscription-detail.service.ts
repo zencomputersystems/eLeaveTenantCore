@@ -99,6 +99,7 @@ export class SubscriptionDetailService {
     inputObj.recurr_interval = data[0].RECURR_INTERVAL;
     inputObj.recurr_interval_val = data[0].RECURR_INTERVAL_VAL;
     inputObj.billing_cycle = data[0].BILLING_CYCLE;
+    inputObj.remarks = data[0].REMARKS;
   }
 
   /**

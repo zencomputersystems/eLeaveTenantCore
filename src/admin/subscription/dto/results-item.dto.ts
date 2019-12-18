@@ -180,6 +180,13 @@ export class CustomerInfoDTO {
    * @memberof CustomerInfoDTO
    */
   billing_cycle: number;
+  /**
+   * Remarks
+   *
+   * @type {string}
+   * @memberof CustomerInfoDTO
+   */
+  remarks: string;
 }
 
 
