@@ -65,6 +65,7 @@ export class SubscriptionService {
     const data = new SubscriptionModel
 
     data.SUBSCRIPTION_GUID = editSubscriptionData.subscriptionGuid;
+    data.REMARKS = editSubscriptionData.remarks;
     this.inputDataSubscription([data, editSubscriptionData]);
     setUpdateData([data, req.USER_GUID]);
 

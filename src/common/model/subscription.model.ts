@@ -91,4 +91,11 @@ export class SubscriptionModel extends CreateUpdateModel {
    * @memberof SubscriptionModel
    */
   BILLING_CYCLE: number;
+  /**
+   * Remarks
+   *
+   * @type {string}
+   * @memberof SubscriptionModel
+   */
+  REMARKS: string;
 }

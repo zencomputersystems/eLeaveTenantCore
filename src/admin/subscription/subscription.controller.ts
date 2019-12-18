@@ -120,7 +120,7 @@ export class SubscriptionController {
       data => {
         res.send(data.data.resource);
       }, err => {
-        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('No subscription found', 'Failed to update Subscription'));
+        res.status(HttpStatus.BAD_REQUEST).send(new NotFoundException('Invalid filters', 'Failed to update Subscription'));
       }
     );
 

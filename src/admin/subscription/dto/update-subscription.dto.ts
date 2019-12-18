@@ -20,4 +20,15 @@ export class UpdateSubscriptionDTO extends CreateSubscriptionDTO {
   @IsNotEmpty()
   @IsString()
   subscriptionGuid: string;
+
+  /**
+   * Remarks
+   *
+   * @type {string}
+   * @memberof UpdateSubscriptionDTO
+   */
+  @ApiModelProperty({ description: 'Deactivate notes', example: 'Contract end' })
+  @IsNotEmpty()
+  @IsString()
+  remarks: string;
 }
