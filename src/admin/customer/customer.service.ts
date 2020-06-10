@@ -7,6 +7,7 @@ import { v1 } from "uuid";
 import { Resource } from "../../common/model/resource.model";
 import { UpdateCustomerDTO } from './dto/update-customer.dto';
 import { setUpdateData } from "../../common/helper/basic-function";
+import { hostURLSubscription } from "../../constant/commonUsed";
 
 /**
  * Service for customer
@@ -21,7 +22,7 @@ export class CustomerService {
    * @param {CustomerDbService} customerDbService DB service for customer
    * @memberof CustomerService
    */
-  constructor(private readonly customerDbService: CustomerDbService) { }
+  constructor(public customerDbService: CustomerDbService) { }
 
   /**
    * Create customer
@@ -41,6 +42,81 @@ export class CustomerService {
     resource.resource.push(data);
 
     return this.customerDbService.createByModel([resource, [], [], []]);
+  }
+
+  public createCustomerWoocommerce([data]: [CreateCustomerDTO]) {
+    let method = hostURLSubscription + '/customers';
+    let data1 = `{
+      "email": "${data.email}",
+      "first_name": "${data.fullname}",
+      "last_name": "maybe",
+      "username": "data.email",
+      "billing": {
+        "first_name": "${data.fullname}",
+        "last_name": "maybe",
+        "company": "${data.companyName}",
+        "address_1": "${data.address1}",
+        "address_2": "${data.address2}",
+        "city": "${data.city}",
+        "state": "${data.state}",
+        "postcode": "${data.postcode}",
+        "country": "${data.country}",
+        "email": "${data.email}",
+        "phone": "${data.contactNo}"
+      },
+      "shipping": {
+        "first_name": "${data.fullname}",
+        "last_name": "maybe",
+        "company": "${data.companyName}",
+        "address_1": "${data.address1}",
+        "address_2": "${data.address2}",
+        "city": "${data.city}",
+        "state": "${data.state}",
+        "postcode": "${data.postcode}",
+        "country": "${data.country}"
+      }
+    }`;
+
+    data1 = `{
+      "email": "${data.email}",
+      "first_name": "${data.fullname}",
+      "last_name": "Doe",
+      "username": "kohn.doe",
+      "billing": {
+        "first_name": "${data.fullname}",
+        "last_name": "Doe",
+        "company": "",
+        "address_1": "969 Market",
+        "address_2": "",
+        "city": "San Francisco",
+        "state": "CA",
+        "postcode": "94103",
+        "country": "US",
+        "email": "${data.email}",
+        "phone": "(555) 555-5555"
+      },
+      "shipping": {
+        "first_name": "${data.fullname}",
+        "last_name": "Doe",
+        "company": "",
+        "address_1": "969 Market",
+        "address_2": "",
+        "city": "San Francisco",
+        "state": "CA",
+        "postcode": "94103",
+        "country": "US"
+      }
+    }`;
+    console.log(data1);
+    this.customerDbService.httpService.post(method, data1)
+      .subscribe(
+        data => {
+          console.log(data.data);
+          // res.send(data.data);
+        }, err => {
+          console.log(err);
+          // res.send(err);
+        })
   }
 
   /**
