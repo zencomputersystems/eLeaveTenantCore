@@ -103,6 +103,7 @@ describe('SubscriptionService', () => {
         RECURR_INTERVAL: {},
         RECURR_INTERVAL_VAL: {},
         BILLING_CYCLE: {},
+        REMARKS: {},
         CREATION_TS: {},
         CREATION_USER_GUID: {},
         UPDATE_TS: new Date(),

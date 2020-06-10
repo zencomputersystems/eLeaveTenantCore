@@ -54,6 +54,38 @@ export class EmailNodemailerService {
   }
 
   /**
+   * Mail process create user
+   *
+   * @param {[string, string, string, string]} [userGuid, loginId, name, email]
+   * @returns
+   * @memberof EmailNodemailerService
+   */
+  public mailProcessUserCreated([password, loginId, name, email]: [string, string, string, string]) {
+    smtpTransport = this.createSMTP();
+
+    var replacements = {
+      email: email,
+      // link: "http://localhost/send-email/send-email.php?id=" + userGuid + "&loginId=" + loginId,
+      username: loginId,
+      password: password,
+      name: name
+    };
+    var from = 'wantan.wonderland.2018@gmail.com';
+    var emailTosend = email;
+    var subject = 'eLeave user created';
+
+    let data = {};
+    data['replacement'] = replacements;
+    data['from'] = from;
+    data['emailTosend'] = emailTosend;
+    data['subject'] = subject;
+
+    let dataRes = this.readHTMLFile('src/common/email-templates/user-created.html', this.callbackReadHTML(data));
+
+    return { "status": "email send" };
+  }
+
+  /**
    * Setup and send email
    *
    * @memberof EmailNodemailerService

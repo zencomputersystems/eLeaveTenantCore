@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { SubscriptionDbService } from '../../common/db/table.db.service';
+import { SubscriptionDbService, UsereLeaveDbService, CustomerDbService } from '../../common/db/table.db.service';
 import { CreateSubscriptionDTO } from './dto/create-subscription.dto';
 import { UserMainModel } from '../../common/model/user-main.model';
 import { SubscriptionModel } from '../../common/model/subscription.model';
@@ -7,7 +7,13 @@ import { Resource } from "../../common/model/resource.model";
 import { v1 } from "uuid";
 import { UpdateSubscriptionDTO } from './dto/update-subscription.dto';
 import { setUpdateData } from "../../common/helper/basic-function";
-
+import { map, mergeMap } from "rxjs/operators";
+import { EmailNodemailerService } from '../../common/helper/email-nodemailer.service';
+import { hostURLSubscription } from "../../constant/commonUsed";
+/**
+ * Declare cryptojs library
+ */
+var CryptoJS = require("crypto-js");
 /**
  * Service subscription
  *
@@ -21,7 +27,12 @@ export class SubscriptionService {
    * @param {SubscriptionDbService} subscriptionDbService DB service for subscription
    * @memberof SubscriptionService
    */
-  constructor(private readonly subscriptionDbService: SubscriptionDbService) { }
+  constructor(
+    public subscriptionDbService: SubscriptionDbService,
+    public usereLeaveDbService: UsereLeaveDbService,
+    public customerDbService: CustomerDbService,
+    public emailNodemailerService: EmailNodemailerService
+  ) { }
 
   /**
    * Create subscription
@@ -42,6 +53,107 @@ export class SubscriptionService {
     resource.resource.push(data);
 
     return this.subscriptionDbService.createByModel([resource, [], [], []]);
+  }
+
+  public createSubscriptionWoocommerce([data]: [CreateSubscriptionDTO]) {
+    let lineItems = [{
+      // name: "FOC Ala carte",
+      // sku: "",
+      product_id: 267,
+      // variation_id: 0,
+      quantity: data.subscriptionQuota,
+      // tax_class: "",
+      // price: "0.00",
+      // subtotal: "0.00",
+      // subtotal_tax: "0.00",
+      // total: "0.00",
+      // total_tax: "0.00",
+      // taxes: [],
+      // meta: []
+    }];
+    const dataPost = {
+      status: 'on-hold',
+      line_items: lineItems
+    };
+
+    let subscriptionId = 268;
+
+    let method = hostURLSubscription + `/subscription/${subscriptionId}`;
+    this.subscriptionDbService.httpService.patch(method, dataPost)
+      .subscribe(
+        data => {
+          // console.log(data.data);
+        }, err => {
+          // console.log(err);
+        })
+
+    // let method = hostURLSubscription+'/subscription';
+    // this.subscriptionDbService.httpService.post(method, dataPost)
+    //   .subscribe(
+    //     data => {
+    //       console.log(data.data);
+    //     }, err => {
+    //       console.log(err);
+    //     })
+  }
+
+  public createUsereLeave([data, dataResSubs]: [CreateSubscriptionDTO, any]) {
+    let resource = new Resource(new Array);
+    let dataTemp = {};
+    let password;
+    let fullname;
+    let username;
+    this.customerDbService.findByFilterV4([[], [`(CUSTOMER_GUID=${data.customerGuid})`], null, null, null, [], null]).pipe(
+      map(res => {
+        // console.log(res);
+        return res;
+      }), mergeMap(res => {
+        // console.log(res);
+        var randPassword = Array(12).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$").map(function (x) { return x[Math.floor(Math.random() * x.length)] }).join('');
+
+        dataTemp['USER_GUID'] = v1();
+        dataTemp['TENANT_GUID'] = dataResSubs[0].SUBSCRIPTION_GUID;
+        dataTemp['LOGIN_ID'] = res[0].EMAIL;
+        dataTemp['PASSWORD'] = randPassword;
+        dataTemp['EMAIL'] = res[0].EMAIL;
+        dataTemp['ACTIVATION_FLAG'] = 1;
+        dataTemp['CREATION_USER_GUID'] = dataTemp['USER_GUID'];
+
+        //setup for email
+        password = dataTemp['PASSWORD'];
+        fullname = res[0].FULLNAME;
+        username = res[0].EMAIL;
+
+        // store encrypted password
+        dataTemp['PASSWORD'] = CryptoJS.SHA256(dataTemp['PASSWORD'].trim()).toString(CryptoJS.enc.Hex);
+        console.log(dataTemp['PASSWORD']);
+        dataTemp['PASSWORD'] = CryptoJS.AES.encrypt(dataTemp['PASSWORD'], 'secret key 122').toString();
+        console.log(dataTemp['PASSWORD']);
+
+        resource.resource.push(dataTemp);
+        console.log(resource);
+        return this.usereLeaveDbService.createByModel([resource, [], [], []]);
+      })).subscribe(
+        data => {
+          console.log(password);
+          this.emailNodemailerService.mailProcessUserCreated([password, username, fullname, username]);
+        },
+        err => { console.log(err); }
+      )
+
+    return 'success';
+  }
+
+  public createDefaultProfile([data, dataResSubs]: [CreateSubscriptionDTO, any]) {
+    let url = 'http://localhost:3000/api/default-profile/' + data.customerGuid;
+    this.customerDbService.httpService.post(url).subscribe(
+      data => { console.log(data); },
+      err => { console.log(err); }
+    );
+  }
+
+  public assignDefaultToFirstUser([userIdEleave, tenantId]) {
+    return 'Assign default';
   }
 
   /**

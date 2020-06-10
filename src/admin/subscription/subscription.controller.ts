@@ -4,12 +4,15 @@ import { ApiBearerAuth, ApiOperation, ApiImplicitParam } from "@nestjs/swagger";
 import { SubscriptionService } from "./subscription.service";
 import { RolesGuard } from "../../guard/role.guard";
 import { Roles } from "../../guard/main.decorator";
-import { CreateSubscriptionDTO } from "./dto/create-subscription.dto";
+import { CreateSubscriptionDTO } from './dto/create-subscription.dto';
 import { Response } from 'express';
 import { UpdateSubscriptionDTO } from "./dto/update-subscription.dto";
 import { SubscriptionDetailService } from "./subscription-detail.service";
 import { CustomerInfoDTO, CompanyInfoDTO, CustomerHistoryDTO, NextBillingDateDTO, UsageDTO } from './dto/results-item.dto';
 import { getResErr } from '../../common/helper/basic-function';
+import { SubscriptionDbService } from '../../common/db/table.db.service';
+import { map, mergeMap } from 'rxjs/operators';
+import { hostURLSubscription } from '../../constant/commonUsed';
 
 /**
  * Controller for subscription
@@ -91,14 +94,36 @@ export class SubscriptionController {
   @ApiOperation({ title: 'Create subscription', description: 'Create subscription in local db. \nPermission : superadmin, salesperson, support' })
   createSubscription(@Body() subscriptionData: CreateSubscriptionDTO, @Req() req, @Res() res: Response) {
 
-    // process create new subscription
-    this.subscriptionService.createSubscription([subscriptionData, req.user]).subscribe(
+    this.subscriptionService.createSubscription([subscriptionData, req.user]).pipe(
+      map(res => {
+        this.subscriptionService.createSubscriptionWoocommerce([subscriptionData]);
+        return res;
+      }), map(res => {
+        this.subscriptionService.createUsereLeave([subscriptionData, res.data.resource]);
+        return res;
+      }), map(res => {
+        this.subscriptionService.createDefaultProfile([subscriptionData, res.data.resource]);
+        return res;
+      })
+    ).subscribe(
       data => {
         res.send(data.data.resource);
       }, err => {
         res.status(HttpStatus.CONFLICT).send(getResErr(err));
       }
-    );
+    )
+
+    // // process create new subscription
+    // this.subscriptionService.createSubscription([subscriptionData, req.user]).subscribe(
+    //   data => {
+    //     this.subscriptionService.createSubscriptionWoocommerce([subscriptionData]);
+    //     this.subscriptionService.createUsereLeave([subscriptionData, data.data.resource]);
+    //     this.subscriptionService.createDefaultProfile([subscriptionData, data.data.resource]);
+    //     res.send(data.data.resource);
+    //   }, err => {
+    //     res.status(HttpStatus.CONFLICT).send(getResErr(err));
+    //   }
+    // );
 
   }
 
@@ -124,6 +149,36 @@ export class SubscriptionController {
       }
     );
 
+  }
+
+  @Get('coupon')
+  @ApiOperation({ title: 'Get coupon' })
+  getCoupon(@Res() res) {
+    let method = hostURLSubscription + '/coupon/coupon';
+    this.subscriptionService.subscriptionDbService.httpService.get(method)
+      .subscribe(
+        data => {
+          console.log(data.data);
+          res.send(data.data);
+        }, err => {
+          console.log(err);
+          res.send(err);
+        })
+  }
+
+  @Get('customer')
+  @ApiOperation({ title: 'Get customer' })
+  getCustomer(@Res() res) {
+    let method = hostURLSubscription + '/subscription';
+    this.subscriptionService.subscriptionDbService.httpService.get(method)
+      .subscribe(
+        data => {
+          console.log(data.data);
+          res.send(data.data);
+        }, err => {
+          console.log(err);
+          res.send(err);
+        })
   }
 
 }
