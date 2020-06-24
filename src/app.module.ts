@@ -9,9 +9,11 @@ import { SubscriptionModule } from './admin/subscription/subscription.module';
 import { ActivityLogModule } from './admin/activity-log/activity-log.module';
 import { ForgotPasswordModule } from './admin/forgot-password/forgot-password.module';
 import { DashboardModule } from './admin/dashboard/dashboard.module';
+import { SyncDataModule } from './admin/sync-data/sync-data.module';
 
 @Module({
   imports: [
+    SyncDataModule,
     AuthModule,
     ForgotPasswordModule,
     RoleModule,

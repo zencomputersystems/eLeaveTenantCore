@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { QueryParserService } from "../../common/helper/query-parser.service";
 import { SubscriptionService } from './subscription.service';
-import { SubscriptionDbService, UsereLeaveDbService, CustomerDbService } from "../../common/db/table.db.service";
+import { SubscriptionDbService, UsereLeaveDbService, CustomerDbService, UserInfoDbService } from "../../common/db/table.db.service";
 import { SubscriptionController } from "./subscription.controller";
 import { getModuleHttp } from "../../common/helper/basic-function";
 import { SubscriptionDetailService } from "./subscription-detail.service";
@@ -15,7 +15,8 @@ import { EmailNodemailerService } from "../../common/helper/email-nodemailer.ser
     SubscriptionDetailService,
     UsereLeaveDbService,
     CustomerDbService,
-    EmailNodemailerService
+    EmailNodemailerService,
+    UserInfoDbService
   ],
   controllers: [
     SubscriptionController

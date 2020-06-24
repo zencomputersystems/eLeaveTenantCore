@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { SubscriptionDbService, UsereLeaveDbService, CustomerDbService } from '../../common/db/table.db.service';
+import { SubscriptionDbService, UsereLeaveDbService, CustomerDbService, UserInfoDbService } from '../../common/db/table.db.service';
 import { CreateSubscriptionDTO } from './dto/create-subscription.dto';
 import { UserMainModel } from '../../common/model/user-main.model';
 import { SubscriptionModel } from '../../common/model/subscription.model';
@@ -10,6 +10,7 @@ import { setUpdateData } from "../../common/helper/basic-function";
 import { map, mergeMap } from "rxjs/operators";
 import { EmailNodemailerService } from '../../common/helper/email-nodemailer.service';
 import { hostURLSubscription } from "../../constant/commonUsed";
+import moment = require('moment');
 /**
  * Declare cryptojs library
  */
@@ -31,7 +32,8 @@ export class SubscriptionService {
     public subscriptionDbService: SubscriptionDbService,
     public usereLeaveDbService: UsereLeaveDbService,
     public customerDbService: CustomerDbService,
-    public emailNodemailerService: EmailNodemailerService
+    public emailNodemailerService: EmailNodemailerService,
+    public userInfoDbService: UserInfoDbService
   ) { }
 
   /**
@@ -103,6 +105,7 @@ export class SubscriptionService {
     let password;
     let fullname;
     let username;
+    let userId;
     this.customerDbService.findByFilterV4([[], [`(CUSTOMER_GUID=${data.customerGuid})`], null, null, null, [], null]).pipe(
       map(res => {
         // console.log(res);
@@ -132,9 +135,13 @@ export class SubscriptionService {
 
         resource.resource.push(dataTemp);
         console.log(resource);
+
+        userId = dataTemp['USER_GUID'];
+
         return this.usereLeaveDbService.createByModel([resource, [], [], []]);
       })).subscribe(
         data => {
+          this.createUserInfo([userId]);
           console.log(password);
           this.emailNodemailerService.mailProcessUserCreated([password, username, fullname, username]);
         },
@@ -144,8 +151,23 @@ export class SubscriptionService {
     return 'success';
   }
 
+  public createUserInfo([userId]: [string]) {
+    console.log('did u here?');
+    let resource = new Resource(new Array());
+    let data = {};
+    data['USER_INFO_GUID'] = v1();
+    data['USER_GUID'] = userId;
+    data['JOIN_DATE'] = moment().format('YYYY-MM-DD');
+    data['CREATION_USER_GUID'] = userId;
+    resource.resource.push(data);
+    this.userInfoDbService.createByModel([resource, [], [], []]).subscribe(
+      data => { console.log(data.data.resource); },
+      err => { console.log(err); }
+    );
+  }
+
   public createDefaultProfile([data, dataResSubs]: [CreateSubscriptionDTO, any]) {
-    let url = 'http://localhost:3000/api/default-profile/' + data.customerGuid;
+    let url = 'http://localhost:3000/api/default-profile/' + dataResSubs[0].SUBSCRIPTION_GUID; // + data.customerGuid;
     this.customerDbService.httpService.post(url).subscribe(
       data => { console.log(data); },
       err => { console.log(err); }

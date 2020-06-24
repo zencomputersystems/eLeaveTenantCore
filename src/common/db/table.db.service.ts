@@ -72,6 +72,24 @@ export class UsereLeaveDbService extends BaseDBService {
 
 
 /**
+ * DB table : user_info
+ *
+ * @export
+ * @class UserInfoDbService
+ * @extends {BaseDBService}
+ */
+@Injectable()
+export class UserInfoDbService extends BaseDBService {
+  /**
+   *Creates an instance of UserInfoDbService.
+   * @param {HttpService} httpService http service
+   * @param {QueryParserService} queryService query service
+   * @memberof UserInfoDbService
+   */
+  constructor(public readonly httpService: HttpService, public readonly queryService: QueryParserService) { super(httpService, queryService, "user_info") }
+}
+
+/**
  * DB table : tenant customer : tenant_customer
  *
  * @export

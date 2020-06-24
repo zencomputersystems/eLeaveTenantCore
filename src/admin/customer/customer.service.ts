@@ -49,11 +49,11 @@ export class CustomerService {
     let data1 = `{
       "email": "${data.email}",
       "first_name": "${data.fullname}",
-      "last_name": "maybe",
-      "username": "data.email",
+      "last_name": "${data.fullname}",
+      "username": "${data.email}",
       "billing": {
         "first_name": "${data.fullname}",
-        "last_name": "maybe",
+        "last_name": "${data.fullname}",
         "company": "${data.companyName}",
         "address_1": "${data.address1}",
         "address_2": "${data.address2}",
@@ -66,7 +66,7 @@ export class CustomerService {
       },
       "shipping": {
         "first_name": "${data.fullname}",
-        "last_name": "maybe",
+        "last_name": "${data.fullname}",
         "company": "${data.companyName}",
         "address_1": "${data.address1}",
         "address_2": "${data.address2}",
@@ -77,36 +77,36 @@ export class CustomerService {
       }
     }`;
 
-    data1 = `{
-      "email": "${data.email}",
-      "first_name": "${data.fullname}",
-      "last_name": "Doe",
-      "username": "kohn.doe",
-      "billing": {
-        "first_name": "${data.fullname}",
-        "last_name": "Doe",
-        "company": "",
-        "address_1": "969 Market",
-        "address_2": "",
-        "city": "San Francisco",
-        "state": "CA",
-        "postcode": "94103",
-        "country": "US",
-        "email": "${data.email}",
-        "phone": "(555) 555-5555"
-      },
-      "shipping": {
-        "first_name": "${data.fullname}",
-        "last_name": "Doe",
-        "company": "",
-        "address_1": "969 Market",
-        "address_2": "",
-        "city": "San Francisco",
-        "state": "CA",
-        "postcode": "94103",
-        "country": "US"
-      }
-    }`;
+    // data1 = `{
+    //   "email": "${data.email}",
+    //   "first_name": "${data.fullname}",
+    //   "last_name": "Doe",
+    //   "username": "kohn.doe",
+    //   "billing": {
+    //     "first_name": "${data.fullname}",
+    //     "last_name": "Doe",
+    //     "company": "",
+    //     "address_1": "969 Market",
+    //     "address_2": "",
+    //     "city": "San Francisco",
+    //     "state": "CA",
+    //     "postcode": "94103",
+    //     "country": "US",
+    //     "email": "${data.email}",
+    //     "phone": "(555) 555-5555"
+    //   },
+    //   "shipping": {
+    //     "first_name": "${data.fullname}",
+    //     "last_name": "Doe",
+    //     "company": "",
+    //     "address_1": "969 Market",
+    //     "address_2": "",
+    //     "city": "San Francisco",
+    //     "state": "CA",
+    //     "postcode": "94103",
+    //     "country": "US"
+    //   }
+    // }`;
     console.log(data1);
     this.customerDbService.httpService.post(method, data1)
       .subscribe(

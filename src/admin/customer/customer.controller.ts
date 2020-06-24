@@ -25,9 +25,12 @@ import { hostURLSubscription } from '../../constant/commonUsed';
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class CustomerController {
-  constructor(private readonly customerService: CustomerService,
-
-  ) { }
+  /**
+   *Creates an instance of CustomerController.
+   * @param {CustomerService} customerService
+   * @memberof CustomerController
+   */
+  constructor(private readonly customerService: CustomerService) { }
 
   /**
    * Get customer list

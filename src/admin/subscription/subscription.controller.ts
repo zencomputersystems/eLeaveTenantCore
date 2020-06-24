@@ -13,6 +13,9 @@ import { getResErr } from '../../common/helper/basic-function';
 import { SubscriptionDbService } from '../../common/db/table.db.service';
 import { map, mergeMap } from 'rxjs/operators';
 import { hostURLSubscription } from '../../constant/commonUsed';
+import { Resource } from '../../common/model/resource.model';
+import { CustomerModel } from '../../common/model/customer.model';
+import { v1 } from 'uuid';
 
 /**
  * Controller for subscription
@@ -21,8 +24,8 @@ import { hostURLSubscription } from '../../constant/commonUsed';
  * @class SubscriptionController
  */
 @Controller('api/admin/subscription')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth()
+// @UseGuards(AuthGuard('jwt'))
+// @ApiBearerAuth()
 export class SubscriptionController {
   /**
    *Creates an instance of SubscriptionController.
@@ -34,6 +37,20 @@ export class SubscriptionController {
     private readonly subscriptionService: SubscriptionService,
     private readonly subscriptionDetailService: SubscriptionDetailService
   ) { }
+
+  @Post('testsync')
+  @ApiOperation({ title: 'Test sync' })
+  testSync(@Res() res) {
+    let resource = new Resource(new Array());
+    let data = new CustomerModel;
+    data.CUSTOMER_GUID = v1();
+    resource.resource.push(data);
+
+    this.subscriptionService.customerDbService.createByModel([resource, [], [], []]).subscribe(
+      data => { res.send(data.data.resource); },
+      err => { res.send(err); }
+    );
+  }
 
   /**
    * Get customer details
@@ -151,34 +168,34 @@ export class SubscriptionController {
 
   }
 
-  @Get('coupon')
-  @ApiOperation({ title: 'Get coupon' })
-  getCoupon(@Res() res) {
-    let method = hostURLSubscription + '/coupon/coupon';
-    this.subscriptionService.subscriptionDbService.httpService.get(method)
-      .subscribe(
-        data => {
-          console.log(data.data);
-          res.send(data.data);
-        }, err => {
-          console.log(err);
-          res.send(err);
-        })
-  }
+  // @Get('coupon')
+  // @ApiOperation({ title: 'Get coupon' })
+  // getCoupon(@Res() res) {
+  //   let method = hostURLSubscription + '/coupons';
+  //   this.subscriptionService.subscriptionDbService.httpService.get(method)
+  //     .subscribe(
+  //       data => {
+  //         console.log(data.data);
+  //         res.send(data.data);
+  //       }, err => {
+  //         console.log(err);
+  //         res.send(err);
+  //       })
+  // }
 
-  @Get('customer')
-  @ApiOperation({ title: 'Get customer' })
-  getCustomer(@Res() res) {
-    let method = hostURLSubscription + '/subscription';
-    this.subscriptionService.subscriptionDbService.httpService.get(method)
-      .subscribe(
-        data => {
-          console.log(data.data);
-          res.send(data.data);
-        }, err => {
-          console.log(err);
-          res.send(err);
-        })
-  }
+  // @Get('customer')
+  // @ApiOperation({ title: 'Get customer' })
+  // getCustomer(@Res() res) {
+  //   let method = hostURLSubscription + '/customers';
+  //   this.subscriptionService.subscriptionDbService.httpService.get(method)
+  //     .subscribe(
+  //       data => {
+  //         console.log(data.data);
+  //         res.send(data.data);
+  //       }, err => {
+  //         console.log(err);
+  //         res.send(err);
+  //       })
+  // }
 
 }
