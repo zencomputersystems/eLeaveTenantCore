@@ -8,7 +8,9 @@ import { v1 } from "uuid";
 import { SubscriptionModel } from '../../common/model/subscription.model';
 import moment = require("moment");
 import { EmailNodemailerService } from "../../common/helper/email-nodemailer.service";
-
+require('dotenv').config();
+/** XMLparser from zen library  */
+var { convertJsonToXML } = require('@zencloudservices/xmlparser');
 /**
  * Declare cryptojs library
  */
@@ -153,7 +155,8 @@ export class SyncDataService {
       let password = dataMain['PASSWORD'];
       let fullname = element.FULLNAME;
       let username = element.EMAIL;
-
+      let tenantId = element.CUSTOMER_GUID;
+      let userId = dataMain['USER_GUID'];
 
       // store encrypted password
       dataMain['PASSWORD'] = CryptoJS.SHA256(dataMain['PASSWORD'].trim()).toString(CryptoJS.enc.Hex);
@@ -172,13 +175,52 @@ export class SyncDataService {
       dataInfo['JOIN_DATE'] = moment().format('YYYY-MM-DD');
       dataInfo['CREATION_USER_GUID'] = dataMain['USER_GUID'];
 
+      let root = {};
+      let employmentDetail = {};
+      let personalDetails = {};
+
+      employmentDetail['dateOfJoin'] = dataInfo['JOIN_DATE'];
+
+      personalDetails['fullname'] = dataInfo['FULLNAME'];
+      personalDetails['nickname'] = dataInfo['FULLNAME'];
+      personalDetails['gender'] = 'Male';
+      personalDetails['maritalStatus'] = 'Single';
+
+      personalDetails['education'] = {};
+      personalDetails['education']['educationDetail'] = [];
+
+      personalDetails['certification'] = [];
+      personalDetails['emergencyContact'] = {};
+      personalDetails['emergencyContact']['contacts'] = [];
+
+      personalDetails['family'] = {};
+      personalDetails['family']['child'] = [];
+      personalDetails['family']['spouse'] = [];
+
+      root['employmentDetail'] = employmentDetail;
+      root['personalDetails'] = personalDetails;
+
+      console.log(root);
+
+      dataInfo['PROPERTIES_XML'] = convertJsonToXML(root);
+
       resInfo.resource.push(dataInfo);
       console.log(resMain);
       console.log(resInfo);
 
-      let userCreateProcess = this.usereLeaveDbService.createByModel([resMain, [], [], []]).pipe(mergeMap(res => {
-        return this.userInfoDbService.createByModel([resInfo, [], [], []]).pipe(map(res => { return res.data.resource; }));
-      }));
+      let userCreateProcess = this.usereLeaveDbService.createByModel([resMain, [], [], []]).pipe(
+        mergeMap(res => {
+          return this.userInfoDbService.createByModel([resInfo, [], [], []]).pipe(map(res => { return res.data.resource; }));
+        }), mergeMap(res => {
+          let url = process.env.URL_APPCORE + '/api/default-profile/' + tenantId;
+          console.log(url);
+          return this.customerDbService.httpService.post(url);
+        }), mergeMap(res => {
+          let url = process.env.URL_APPCORE + '/api/default-profile/' + tenantId + '/' + userId;
+          console.log(url);
+          return this.customerDbService.httpService.post(url);
+        })
+      );
 
       userCreateProcess.subscribe(
         data => {

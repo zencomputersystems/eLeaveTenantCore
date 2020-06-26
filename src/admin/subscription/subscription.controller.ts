@@ -24,8 +24,8 @@ import { v1 } from 'uuid';
  * @class SubscriptionController
  */
 @Controller('api/admin/subscription')
-// @UseGuards(AuthGuard('jwt'))
-// @ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 export class SubscriptionController {
   /**
    *Creates an instance of SubscriptionController.
@@ -38,19 +38,19 @@ export class SubscriptionController {
     private readonly subscriptionDetailService: SubscriptionDetailService
   ) { }
 
-  @Post('testsync')
-  @ApiOperation({ title: 'Test sync' })
-  testSync(@Res() res) {
-    let resource = new Resource(new Array());
-    let data = new CustomerModel;
-    data.CUSTOMER_GUID = v1();
-    resource.resource.push(data);
+  // @Post('testsync')
+  // @ApiOperation({ title: 'Test sync' })
+  // testSync(@Res() res) {
+  //   let resource = new Resource(new Array());
+  //   let data = new CustomerModel;
+  //   data.CUSTOMER_GUID = v1();
+  //   resource.resource.push(data);
 
-    this.subscriptionService.customerDbService.createByModel([resource, [], [], []]).subscribe(
-      data => { res.send(data.data.resource); },
-      err => { res.send(err); }
-    );
-  }
+  //   this.subscriptionService.customerDbService.createByModel([resource, [], [], []]).subscribe(
+  //     data => { res.send(data.data.resource); },
+  //     err => { res.send(err); }
+  //   );
+  // }
 
   /**
    * Get customer details

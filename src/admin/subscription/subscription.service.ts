@@ -11,6 +11,7 @@ import { map, mergeMap } from "rxjs/operators";
 import { EmailNodemailerService } from '../../common/helper/email-nodemailer.service';
 import { hostURLSubscription } from "../../constant/commonUsed";
 import moment = require('moment');
+require('dotenv').config();
 /**
  * Declare cryptojs library
  */
@@ -167,7 +168,7 @@ export class SubscriptionService {
   }
 
   public createDefaultProfile([data, dataResSubs]: [CreateSubscriptionDTO, any]) {
-    let url = 'http://localhost:3000/api/default-profile/' + dataResSubs[0].SUBSCRIPTION_GUID; // + data.customerGuid;
+    let url = process.env.URL_APPCORE + '/api/default-profile/' + dataResSubs[0].SUBSCRIPTION_GUID; // + data.customerGuid;
     this.customerDbService.httpService.post(url).subscribe(
       data => { console.log(data); },
       err => { console.log(err); }

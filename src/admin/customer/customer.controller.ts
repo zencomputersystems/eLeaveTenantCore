@@ -55,9 +55,10 @@ export class CustomerController {
   }
 
   @Get('woocommerce')
-  @ApiOperation({ title: 'Get woocommerce customer', description: 'Get customer from woocommerce' })
+  @ApiOperation({ title: 'Sync woocommerce customer', description: 'Sync customer from woocommerce' })
   findWoocommerceCustomer(@Res() res) {
     let method = hostURLSubscription + '/customers';
+    console.log(method);
     this.customerService.customerDbService.httpService.get(method).pipe(
       mergeMap(res => {
         let customerData = this.customerService.customerDbService.findByFilterV4([[], [], null, null, null, [], null]);

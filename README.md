@@ -34,6 +34,22 @@
 $ npm install
 ```
 
+## Environment
+
+```bash
+PORT : XXXX
+URL_APPCORE : XXXX
+URL_COMMERCECORE : XXXX
+DF_HOST : XXXX
+DF_KEY : XXXX
+DF_HOST_PROC : XXXX
+SMTPHOST : XXXX
+SMTPPORT : XXXX
+SMTPSECURE : XXXX
+SMTPUSER : XXXX
+SMTPPASSWORD : XXXX
+```
+
 ## Running the app
 
 ```bash
