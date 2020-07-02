@@ -42,7 +42,7 @@ export class SyncDataController {
   @Post('testsyncsubscription')
   @ApiOperation({ title: 'Test sync' })
   testSyncSubscription(@Req() req, @Res() res) {
-    console.log(req.headers);
+    console.log(req);
     const urlSubscription = `https://beesuite.app:3003/subscription`;
     this.syncdataService.customerDbService.httpService.get(urlSubscription).subscribe(
       data => { res.status(HttpStatus.OK).send(data.data); },
