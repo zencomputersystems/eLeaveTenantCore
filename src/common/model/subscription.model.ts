@@ -22,6 +22,13 @@ export class SubscriptionModel extends CreateUpdateModel {
    */
   SUBSCRIPTION_LABEL: string;
   /**
+   * Commerce id
+   *
+   * @type {string}
+   * @memberof SubscriptionModel
+   */
+  COMMERCE_ID: string;
+  /**
    * Customer guid
    *
    * @type {string}

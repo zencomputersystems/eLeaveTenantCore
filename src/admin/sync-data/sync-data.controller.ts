@@ -1,4 +1,4 @@
-import { Controller, Post, Res, Get } from "@nestjs/common";
+import { Controller, Post, Res, Get, HttpStatus } from '@nestjs/common';
 import { ApiOperation } from "@nestjs/swagger";
 import { Resource } from "../../common/model/resource.model";
 import { CustomerModel } from '../../common/model/customer.model';
@@ -25,6 +25,26 @@ export class SyncDataController {
     const urlSubscription = `https://beesuite.app:3003/subscription`;
     this.syncdataService.processSync().subscribe(
       data => { res.send(data); },
+      err => { res.send(err); }
+    )
+
+    // let resource = new Resource(new Array());
+    // let data = new CustomerModel;
+    // data.CUSTOMER_GUID = v1();
+    // resource.resource.push(data);
+
+    // this.customerDbService.createByModel([resource, [], [], []]).subscribe(
+    //   data => { res.send(data.data.resource); },
+    //   err => { res.send(err); }
+    // );
+  }
+
+  @Post('testsyncsubscription')
+  @ApiOperation({ title: 'Test sync' })
+  testSyncSubscription(@Res() res) {
+    const urlSubscription = `https://beesuite.app:3003/subscription`;
+    this.syncdataService.customerDbService.httpService.get(urlSubscription).subscribe(
+      data => { res.status(HttpStatus.OK).send(data.data); },
       err => { res.send(err); }
     )
 

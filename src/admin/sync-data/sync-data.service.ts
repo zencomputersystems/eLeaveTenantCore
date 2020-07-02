@@ -115,6 +115,7 @@ export class SyncDataService {
         let data = new SubscriptionModel;
         data.SUBSCRIPTION_GUID = v1();
         data.SUBSCRIPTION_LABEL = 'SUB-' + element.id;
+        data.COMMERCE_ID = element.id;
         data.CUSTOMER_GUID = customerGuid;
         data.STATUS = 1;
         data.QUOTA = element.line_items[0].quantity;
