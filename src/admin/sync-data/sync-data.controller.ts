@@ -1,4 +1,4 @@
-import { Controller, Post, Res, Get, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Res, Get, HttpStatus, Req } from '@nestjs/common';
 import { ApiOperation } from "@nestjs/swagger";
 import { Resource } from "../../common/model/resource.model";
 import { CustomerModel } from '../../common/model/customer.model';
@@ -41,7 +41,8 @@ export class SyncDataController {
 
   @Post('testsyncsubscription')
   @ApiOperation({ title: 'Test sync' })
-  testSyncSubscription(@Res() res) {
+  testSyncSubscription(@Req() req, @Res() res) {
+    console.log(req.headers);
     const urlSubscription = `https://beesuite.app:3003/subscription`;
     this.syncdataService.customerDbService.httpService.get(urlSubscription).subscribe(
       data => { res.status(HttpStatus.OK).send(data.data); },
