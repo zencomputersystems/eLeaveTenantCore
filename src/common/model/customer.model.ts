@@ -22,6 +22,13 @@ export class CustomerModel extends CreateUpdateModel {
    */
   CUSTOMER_LABEL: string;
   /**
+   * Commerce id
+   *
+   * @type {string}
+   * @memberof CustomerModel
+   */
+  COMMERCE_ID: string;
+  /**
    * Fullname
    *
    * @type {string}
