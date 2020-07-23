@@ -71,7 +71,7 @@ export class SyncDataService {
             let dataSubscription = wcData.filter(x => x.billing.email === element.EMAIL);
             this.setupSubscriptionData([dataSubscription, element.CUSTOMER_GUID, resource])
           });
-          console.log(resource);
+          // console.log(resource);
           return this.subscriptionDbService.createByModel([resource, ['SUBSCRIPTION_GUID', 'CUSTOMER_GUID'], [], []]).pipe(
             map(res => {
               subscriptionRes = res.data.resource;
@@ -82,7 +82,7 @@ export class SyncDataService {
           return of(res);
         }
       }), map(res => {
-        console.log(res);
+        // console.log(res);
         this.createFirstUser([customerRes, subscriptionRes]);
         return res;
       })
@@ -91,7 +91,7 @@ export class SyncDataService {
   }
 
   public setupCustomerData([dataWc, resource]: [any, any]) {
-    console.log(dataWc);
+    // console.log(dataWc);
     let data = new CustomerModel;
     data.CUSTOMER_GUID = v1();
     data.EMAIL = dataWc.email;
@@ -176,6 +176,7 @@ export class SyncDataService {
       dataInfo['JOIN_DATE'] = moment().format('YYYY-MM-DD');
       dataInfo['CREATION_USER_GUID'] = dataMain['USER_GUID'];
 
+      let base = {};
       let root = {};
       let employmentDetail = {};
       let personalDetails = {};
@@ -201,24 +202,24 @@ export class SyncDataService {
       root['employmentDetail'] = employmentDetail;
       root['personalDetails'] = personalDetails;
 
-      console.log(root);
+      base['root'] = root;
 
-      dataInfo['PROPERTIES_XML'] = convertJsonToXML(root);
+      dataInfo['PROPERTIES_XML'] = convertJsonToXML(base);
 
       resInfo.resource.push(dataInfo);
-      console.log(resMain);
-      console.log(resInfo);
+      // console.log(resMain);
+      // console.log(resInfo);
 
       let userCreateProcess = this.usereLeaveDbService.createByModel([resMain, [], [], []]).pipe(
         mergeMap(res => {
           return this.userInfoDbService.createByModel([resInfo, [], [], []]).pipe(map(res => { return res.data.resource; }));
         }), mergeMap(res => {
           let url = process.env.URL_APPCORE + '/api/default-profile/' + tenantId;
-          console.log(url);
+          // console.log(url);
           return this.customerDbService.httpService.post(url);
         }), mergeMap(res => {
           let url = process.env.URL_APPCORE + '/api/default-profile/' + tenantId + '/' + userId;
-          console.log(url);
+          // console.log(url);
           return this.customerDbService.httpService.post(url);
         })
       );

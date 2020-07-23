@@ -15,12 +15,12 @@ import { subsUpdated } from './mock.updated';
 export class SyncDataController {
   constructor(public syncdataService: SyncDataService) { }
 
-  @Get('test')
-  @ApiOperation({ title: 'test' })
-  test(@Res() res) {
-    console.log('Hello')
-    res.send(`Yes i'm here`);
-  }
+  // @Get('test')
+  // @ApiOperation({ title: 'test' })
+  // test(@Res() res) {
+  //   console.log('Hello')
+  //   res.send(`Yes i'm here`);
+  // }
 
   @Post('testsync')
   @ApiOperation({ title: 'Test sync' })
@@ -45,10 +45,10 @@ export class SyncDataController {
   @Post('testsyncsubscription')
   @ApiOperation({ title: 'Test sync' })
   testSyncSubscription(@Req() req, @Res() res) {
-    console.log(req);
-    console.log('_____________________________________________');
-    console.log(req.body);
-    console.log('_____________________________________________');
+    // console.log(req);
+    // console.log('_____________________________________________');
+    // console.log(req.body);
+    // console.log('_____________________________________________');
     // console.log(res);
     const urlSubscription = `https://beesuite.app:3003/subscription`;
     this.syncdataService.customerDbService.httpService.get(urlSubscription).subscribe(
@@ -87,7 +87,7 @@ export class SyncDataController {
         // console.log(res.data);
         let resource = new Resource(new Array());
         this.setupCustomerData([res.data, resource]);
-        console.log(resource);
+        // console.log(resource);
         return this.syncdataService.customerDbService.createByModel([resource, ['CUSTOMER_GUID', 'EMAIL', 'FULLNAME'], [], []])
           .pipe(
             map(res => {
@@ -99,7 +99,7 @@ export class SyncDataController {
       }), mergeMap(res => {
         let resource = new Resource(new Array());
         this.setupSubscriptionData([payloadData, resource, res[0].CUSTOMER_GUID]);
-        console.log(resource);
+        // console.log(resource);
         return this.syncdataService.subscriptionDbService.createByModel([resource, ['SUBSCRIPTION_GUID', 'CUSTOMER_GUID'], [], []]).pipe(
           map(res => {
             console.log(res.data.resource);
@@ -108,13 +108,13 @@ export class SyncDataController {
           })
         );
       }), map(res => {
-        console.log(res);
+        // console.log(res);
         this.syncdataService.createFirstUser([customerRes, subscriptionRes]);
         return res;
       })
     ).subscribe(
       data => {
-        console.log(data);
+        // console.log(data);
         res.status(HttpStatus.OK).send(data);
       },
       err => {
@@ -141,14 +141,14 @@ export class SyncDataController {
     const payloadData = req.body;
     let resource = new Resource(new Array());
     this.setupSubscriptionData([payloadData, resource, null]);
-    console.log(resource);
+    // console.log(resource);
     this.syncdataService.subscriptionDbService.updateByModel([resource, [], [`(COMMERCE_ID=${payloadData.id})`], []]).pipe(
       map(res => {
         return res.data.resource;
       })
     ).subscribe(
       data => {
-        console.log(data);
+        // console.log(data);
         res.status(HttpStatus.OK).send(data);
       },
       err => {
