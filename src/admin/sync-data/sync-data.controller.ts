@@ -109,7 +109,7 @@ export class SyncDataController {
         );
       }), map(res => {
         // console.log(res);
-        this.syncdataService.createFirstUser([customerRes, subscriptionRes]);
+        this.syncdataService.createFirstUser([customerRes, subscriptionRes, payloadData]);
         return res;
       })
     ).subscribe(

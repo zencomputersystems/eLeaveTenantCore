@@ -83,7 +83,7 @@ export class SyncDataService {
         }
       }), map(res => {
         // console.log(res);
-        this.createFirstUser([customerRes, subscriptionRes]);
+        this.createFirstUser([customerRes, subscriptionRes, null]);
         return res;
       })
     )
@@ -126,7 +126,7 @@ export class SyncDataService {
     }
   }
 
-  public createFirstUser([customerRes, subscriptionRes]) {
+  public createFirstUser([customerRes, subscriptionRes, payload]) {
 
     // console.log(customerRes);
     // console.log(subscriptionRes);
@@ -219,6 +219,10 @@ export class SyncDataService {
           return this.customerDbService.httpService.post(url);
         }), mergeMap(res => {
           let url = process.env.URL_APPCORE + '/api/default-profile/' + tenantId + '/' + userId;
+          // console.log(url);
+          return this.customerDbService.httpService.post(url);
+        }), mergeMap(res => {
+          let url = process.env.URL_APPCORE + '/api/default-profile/' + tenantId + '/' + payload.billing.company + '/' + userId;
           // console.log(url);
           return this.customerDbService.httpService.post(url);
         })
