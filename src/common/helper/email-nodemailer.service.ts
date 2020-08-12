@@ -69,7 +69,13 @@ export class EmailNodemailerService {
       // link: "http://localhost/send-email/send-email.php?id=" + userGuid + "&loginId=" + loginId,
       username: loginId,
       password: password,
-      name: name
+      name: name,
+      product_name: 'Beesuite',
+      url_portal: process.env.URL_PORTAL || 'https://a.beesuite.app',
+      url_documentation: process.env.URL_DOCUMENTATION || 'https://a.beesuite.app',
+      company_name: 'Zen Computer System Sdn. Bhd.',
+      address_one: '4808-1-28, CBD Perdana 2, Persiaran Flora',
+      address_two: '63000, Cyberjaya, Selangor'
     };
     var from = process.env.SMTPUSER;//'wantan.wonderland.2018@gmail.com';
     var emailTosend = email;
