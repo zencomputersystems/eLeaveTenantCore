@@ -39,7 +39,7 @@ export class EmailNodemailerService {
       link: "http://localhost/send-email/send-email.php?id=" + userGuid + "&loginId=" + loginId,
       name: name
     };
-    var from = 'wantan.wonderland.2018@gmail.com';
+    var from = process.env.SMTPUSER;// 'wantan.wonderland.2018@gmail.com';
     var emailTosend = email;
     var subject = 'Forgot password eLeaveTenant';
 
@@ -71,7 +71,7 @@ export class EmailNodemailerService {
       password: password,
       name: name
     };
-    var from = 'wantan.wonderland.2018@gmail.com';
+    var from = process.env.SMTPUSER;//'wantan.wonderland.2018@gmail.com';
     var emailTosend = email;
     var subject = 'eLeave user created';
 
@@ -144,8 +144,8 @@ export class EmailNodemailerService {
   public createSMTP() {
     smtpTransport = nodemailer.createTransport({
       host: process.env.SMTPHOST || "smtp.ethereal.email",
-      port: process.env.SMTPPORT || 587,
-      secure: process.env.SMTPSECURE || false, // true for 465, false for other ports
+      port: parseInt(process.env.SMTPPORT) || 587,
+      secure: JSON.parse(process.env.SMTPSECURE) || false, // true for 465, false for other ports
       auth: {
         user: process.env.SMTPUSER || 'casimir.mcglynn@ethereal.email',
         pass: process.env.SMTPPASSWORD || 'GYSA4r14EQRPB9guAK'
