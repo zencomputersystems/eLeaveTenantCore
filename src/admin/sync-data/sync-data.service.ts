@@ -193,7 +193,6 @@ export class SyncDataService {
       employmentDetail['employmentStatus'] = ' ';
       employmentDetail['employmentType'] = ' ';
       employmentDetail['reportingTo'] = ' ';
-      employmentDetail['dateOfJoin'] = ' ';
       employmentDetail['dateOfConfirmation'] = ' ';
       employmentDetail['dateOfResignation'] = ' ';
       employmentDetail['epfNumber'] = ' ';
