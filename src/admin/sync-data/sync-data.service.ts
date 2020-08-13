@@ -207,8 +207,6 @@ export class SyncDataService {
 
       personalDetails['nric'] = ' ';
       personalDetails['dob'] = ' ';
-      personalDetails['gender'] = ' ';
-      personalDetails['maritalStatus'] = ' ';
       personalDetails['race'] = ' ';
       personalDetails['religion'] = ' ';
       personalDetails['nationality'] = ' ';
