@@ -183,10 +183,46 @@ export class SyncDataService {
 
       employmentDetail['dateOfJoin'] = dataInfo['JOIN_DATE'];
 
+      employmentDetail['employeeId'] = ' ';
+      employmentDetail['companyId'] = ' ';
+      employmentDetail['department'] = ' ';
+      employmentDetail['designation'] = ' ';
+      employmentDetail['section'] = ' ';
+      employmentDetail['branch'] = ' ';
+      employmentDetail['costcentre'] = ' ';
+      employmentDetail['employmentStatus'] = ' ';
+      employmentDetail['employmentType'] = ' ';
+      employmentDetail['reportingTo'] = ' ';
+      employmentDetail['dateOfJoin'] = ' ';
+      employmentDetail['dateOfConfirmation'] = ' ';
+      employmentDetail['dateOfResignation'] = ' ';
+      employmentDetail['epfNumber'] = ' ';
+      employmentDetail['incomeTaxNumber'] = ' ';
+      employmentDetail['bankAccountName'] = ' ';
+      employmentDetail['bankAccountNumber'] = ' ';
+
       personalDetails['fullname'] = dataInfo['FULLNAME'];
       personalDetails['nickname'] = dataInfo['FULLNAME'];
       personalDetails['gender'] = 'Male';
       personalDetails['maritalStatus'] = 'Single';
+
+      personalDetails['nric'] = ' ';
+      personalDetails['dob'] = ' ';
+      personalDetails['gender'] = ' ';
+      personalDetails['maritalStatus'] = ' ';
+      personalDetails['race'] = ' ';
+      personalDetails['religion'] = ' ';
+      personalDetails['nationality'] = ' ';
+      personalDetails['phoneNumber'] = ' ';
+      personalDetails['workPhoneNumber'] = ' ';
+      personalDetails['emailAddress'] = ' ';
+      personalDetails['workEmailAddress'] = ' ';
+      personalDetails['address1'] = ' ';
+      personalDetails['address2'] = ' ';
+      personalDetails['postcode'] = ' ';
+      personalDetails['city'] = ' ';
+      personalDetails['state'] = ' ';
+      personalDetails['country'] = ' ';
 
       personalDetails['education'] = {};
       personalDetails['education']['educationDetail'] = [];
@@ -198,6 +234,8 @@ export class SyncDataService {
       personalDetails['family'] = {};
       personalDetails['family']['child'] = [];
       personalDetails['family']['spouse'] = [];
+
+      root['notificationRule'] = [];
 
       root['employmentDetail'] = employmentDetail;
       root['personalDetails'] = personalDetails;
