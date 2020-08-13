@@ -70,7 +70,7 @@ export class EmailNodemailerService {
       username: loginId,
       password: password,
       name: name,
-      product_name: 'Beesuite',
+      product_name: 'beeSuite',
       url_portal: process.env.URL_PORTAL || 'https://a.beesuite.app',
       url_documentation: process.env.URL_DOCUMENTATION || 'https://a.beesuite.app',
       company_name: 'Zen Computer System Sdn. Bhd.',
