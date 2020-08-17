@@ -181,8 +181,7 @@ export class SyncDataService {
       let employmentDetail = {};
       let personalDetails = {};
 
-      employmentDetail['dateOfJoin'] = dataInfo['JOIN_DATE'];
-
+      // Employment details
       employmentDetail['employeeId'] = ' ';
       employmentDetail['companyId'] = ' ';
       employmentDetail['department'] = ' ';
@@ -193,6 +192,7 @@ export class SyncDataService {
       employmentDetail['employmentStatus'] = ' ';
       employmentDetail['employmentType'] = ' ';
       employmentDetail['reportingTo'] = ' ';
+      employmentDetail['dateOfJoin'] = dataInfo['JOIN_DATE'];
       employmentDetail['dateOfConfirmation'] = ' ';
       employmentDetail['dateOfResignation'] = ' ';
       employmentDetail['epfNumber'] = ' ';
@@ -200,13 +200,13 @@ export class SyncDataService {
       employmentDetail['bankAccountName'] = ' ';
       employmentDetail['bankAccountNumber'] = ' ';
 
+      // Personal details
       personalDetails['fullname'] = dataInfo['FULLNAME'];
       personalDetails['nickname'] = dataInfo['FULLNAME'];
-      personalDetails['gender'] = 'Male';
-      personalDetails['maritalStatus'] = 'Single';
-
       personalDetails['nric'] = ' ';
       personalDetails['dob'] = ' ';
+      personalDetails['gender'] = 'Male';
+      personalDetails['maritalStatus'] = 'Single';
       personalDetails['race'] = ' ';
       personalDetails['religion'] = ' ';
       personalDetails['nationality'] = ' ';
@@ -221,20 +221,62 @@ export class SyncDataService {
       personalDetails['state'] = ' ';
       personalDetails['country'] = ' ';
 
-      personalDetails['education'] = {};
-      personalDetails['education']['educationDetail'] = [];
+      // Emergency contact data
+      personalDetails['emergencyContact'] = [];
+      let emergencyContactArray = [];
+      let emergencyContactDetail = {};
+      emergencyContactDetail['contactName'] = ' ';
+      emergencyContactDetail['contactNumber'] = ' ';
+      emergencyContactDetail['contactRelationship'] = ' ';
+      emergencyContactArray.push(emergencyContactDetail);
+      personalDetails['emergencyContact'] = emergencyContactArray;
 
+      // Education data
+      personalDetails['education'] = [];
+      let educationArray = [];
+      let educationDetail = {};
+      educationDetail['qualificationLevel'] = ' ';
+      educationDetail['major'] = ' ';
+      educationDetail['university'] = ' ';
+      educationDetail['year'] = ' ';
+      educationArray.push(educationDetail);
+      personalDetails['education'] = educationArray;
+
+      // Certification data
       personalDetails['certification'] = [];
-      personalDetails['emergencyContact'] = {};
-      personalDetails['emergencyContact']['contacts'] = [];
+      let certificationArray = [];
+      let certificationDetail = {};
+      certificationDetail['certificationName'] = ' ';
+      certificationDetail['certificationEnrollYear'] = ' ';
+      certificationDetail['certificationGraduateYear'] = ' ';
+      certificationDetail['certificationAttachment'] = ' ';
+      certificationArray.push(certificationDetail);
+      personalDetails['certification'] = certificationArray;
 
-      personalDetails['family'] = {};
-      personalDetails['family']['child'] = [];
-      personalDetails['family']['spouse'] = [];
+      // Family data
+      let familyDetails = {};
+      // Child data
+      familyDetails['child'] = [];
+      let childArray = [];
+      let childDetails = {};
+      childDetails['childName'] = ' ';
+      childDetails['childIdentificationNumber'] = ' ';
+      childArray.push(childDetails);
+      familyDetails['child'] = childArray;
+      // Spouse data
+      familyDetails['spouse'] = [];
+      let spouseArray = [];
+      let spouseDetails = {};
+      spouseDetails['spouseName'] = ' ';
+      spouseDetails['spouseIdentificationNumber'] = ' ';
+      spouseArray.push(spouseDetails);
+      familyDetails['spouse'] = spouseArray;
 
-      root['notificationRule'] = [];
+      personalDetails['family'] = familyDetails;
 
+      // Setup all data
       root['employmentDetail'] = employmentDetail;
+      root['notificationRule'] = ' ';
       root['personalDetails'] = personalDetails;
 
       base['root'] = root;
