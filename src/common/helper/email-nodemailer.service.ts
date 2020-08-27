@@ -39,7 +39,7 @@ export class EmailNodemailerService {
       link: "http://localhost/send-email/send-email.php?id=" + userGuid + "&loginId=" + loginId,
       name: name
     };
-    var from = process.env.SMTPUSER;// 'wantan.wonderland.2018@gmail.com';
+    var from = process.env.SMTPSENDER;// 'wantan.wonderland.2018@gmail.com';
     var emailTosend = email;
     var subject = 'Forgot password eLeaveTenant';
 
@@ -77,7 +77,7 @@ export class EmailNodemailerService {
       address_one: '4808-1-28, CBD Perdana 2, Persiaran Flora',
       address_two: '63000, Cyberjaya, Selangor'
     };
-    var from = process.env.SMTPUSER;//'wantan.wonderland.2018@gmail.com';
+    var from = process.env.SMTPSENDER;//'wantan.wonderland.2018@gmail.com';
     var emailTosend = email;
     var subject = 'eLeave user created';
 
