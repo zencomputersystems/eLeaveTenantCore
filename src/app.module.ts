@@ -10,6 +10,7 @@ import { ActivityLogModule } from './admin/activity-log/activity-log.module';
 import { ForgotPasswordModule } from './admin/forgot-password/forgot-password.module';
 import { DashboardModule } from './admin/dashboard/dashboard.module';
 import { SyncDataModule } from './admin/sync-data/sync-data.module';
+import { SupportModule } from './admin/support/support.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { SyncDataModule } from './admin/sync-data/sync-data.module';
     CustomerModule,
     SubscriptionModule,
     ActivityLogModule,
-    DashboardModule
+    DashboardModule,
+    SupportModule
   ],
   controllers: [AppController],
   providers: [AppService],

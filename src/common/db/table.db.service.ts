@@ -162,3 +162,68 @@ export class StatisticDbService extends BaseDBService {
    */
   constructor(public readonly httpService: HttpService, public readonly queryService: QueryParserService) { super(httpService, queryService, "t_view_statistic") }
 }
+
+/**
+ * DB table : s_log_ticket
+ *
+ * @export
+ * @class SupportTicketDbService
+ * @extends {BaseDBService}
+ */
+@Injectable()
+export class SupportTicketDbService extends BaseDBService {
+  /**
+   * Declare table
+   *
+   * @memberof SupportTicketDbService
+   */
+  public tableDB = 's_log_ticket';
+  /**
+   *Creates an instance of UserDbService.
+   * @param {HttpService} httpService http service
+   * @param {QueryParserService} queryService query service
+   * @memberof SupportTicketDbService
+   */
+  constructor(public readonly httpService: HttpService, public readonly queryService: QueryParserService) { super(httpService, queryService, "s_log_ticket") }
+}
+
+@Injectable()
+export class SupportClarificationDbService extends BaseDBService {
+  /**
+   * Declare table
+   *
+   * @memberof SupportClarificationDbService
+   */
+  public tableDB = 's_clarification';
+  /**
+   *Creates an instance of UserDbService.
+   * @param {HttpService} httpService http service
+   * @param {QueryParserService} queryService query service
+   * @memberof SupportClarificationDbService
+   */
+  constructor(public readonly httpService: HttpService, public readonly queryService: QueryParserService) { super(httpService, queryService, "s_clarification") }
+}
+
+/**
+ * DB table : user_main
+ *
+ * @export
+ * @class UsereLeaveDbService
+ * @extends {BaseDBService}
+ */
+@Injectable()
+export class UserprofileDbService extends BaseDBService {
+  /**
+   * Declare table
+   *
+   * @memberof UsereLeaveDbService
+   */
+  public tableDB = 'l_view_user_profile_list';
+  /**
+   *Creates an instance of UserDbService.
+   * @param {HttpService} httpService http service
+   * @param {QueryParserService} queryService query service
+   * @memberof UserDbService
+   */
+  constructor(public readonly httpService: HttpService, public readonly queryService: QueryParserService) { super(httpService, queryService, "l_view_user_profile_list") }
+}
