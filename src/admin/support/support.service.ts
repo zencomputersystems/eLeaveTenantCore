@@ -158,7 +158,7 @@ export class SupportService {
     model.DESCRIPTION = data.description;
     // model.START_TIME = moment.unix(data.starttime).format('YYYY-MM-DD HH:mm:ss').toString();
     // model.END_TIME = moment.unix(data.endtime).format('YYYY-MM-DD HH:mm:ss').toString();
-    model.CREATION_TS = moment().utc(true).format('YYYY-MM-DD HH:mm:ss').toString();
+    model.CREATION_TS = moment().utcOffset('+0800').format('YYYY-MM-DD HH:mm:ss').toString();
     model.STATUS = 0;
     model.MODULE = 'tenant';
     return model;
@@ -169,7 +169,7 @@ export class SupportService {
     model.USER_GUID = data.userId;
     model.ATTACHMENT = data.doc.toString();
     model.MESSAGE = data.message;
-    model.CREATION_TS = moment().utc(true).format('YYYY-MM-DD HH:mm:ss').toString();
+    model.CREATION_TS = moment().utcOffset('+0800').format('YYYY-MM-DD HH:mm:ss').toString();
     return model;
   }
 
