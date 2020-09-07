@@ -9,7 +9,7 @@ export const mockPayload = {
   "prices_include_tax": false,
   "date_created": "2020-07-05T17:33:06",
   "date_modified": "2020-07-05T17:33:07",
-  "customer_id": 43,
+  "customer_id": 64,
   "discount_total": "0.00",
   "discount_tax": "0.00",
   "shipping_total": "0.00",
@@ -27,7 +27,7 @@ export const mockPayload = {
     "state": "SGR",
     "postcode": "63000",
     "country": "MY",
-    "email": "damia.nisa@gmail.com",
+    "email": "fakhri@zen.com.my",
     "phone": ""
   },
   "shipping": {

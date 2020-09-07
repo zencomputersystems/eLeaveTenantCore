@@ -152,6 +152,15 @@ export class SyncDataService {
       dataMain['ACTIVATION_FLAG'] = 1;
       dataMain['CREATION_USER_GUID'] = dataMain['USER_GUID'];
 
+      const fs = require('fs');
+
+      // append data to a file
+      fs.appendFile('userCreated.log', '\n[' + new Date() + ']' + `[${dataMain['EMAIL']},${element.FULLNAME},${dataMain['LOGIN_ID']},${randPassword}]`, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+
       //setup for email
       let password = dataMain['PASSWORD'];
       let fullname = element.FULLNAME;
@@ -310,6 +319,8 @@ export class SyncDataService {
           this.emailNodemailerService.mailProcessUserCreated([password, username, fullname, username]);
           console.log('data');
         }, err => {
+          // console.log(err.response.data.error.context.resource);
+          // console.log(err);
           console.log('err');
         }
       )
@@ -320,6 +331,8 @@ export class SyncDataService {
 
   }
 
-
+  public sendEmailAgain([password, username, fullname, email]: [string, string, string, string]) {
+    this.emailNodemailerService.mailProcessUserCreated([password, username, fullname, email]);
+  }
 
 }

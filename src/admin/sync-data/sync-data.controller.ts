@@ -1,5 +1,5 @@
-import { Controller, Post, Res, Get, HttpStatus, Req } from '@nestjs/common';
-import { ApiOperation } from "@nestjs/swagger";
+import { Controller, Post, Res, Get, HttpStatus, Req, Param } from '@nestjs/common';
+import { ApiOperation, ApiImplicitParam } from "@nestjs/swagger";
 import { Resource } from "../../common/model/resource.model";
 import { CustomerModel } from '../../common/model/customer.model';
 import { v1 } from "uuid";
@@ -14,13 +14,6 @@ import { subsUpdated } from './mock.updated';
 @Controller('api/admin/sync-data')
 export class SyncDataController {
   constructor(public syncdataService: SyncDataService) { }
-
-  // @Get('test')
-  // @ApiOperation({ title: 'test' })
-  // test(@Res() res) {
-  //   console.log('Hello')
-  //   res.send(`Yes i'm here`);
-  // }
 
   @Post('testsync')
   @ApiOperation({ title: 'Test sync' })
@@ -45,11 +38,6 @@ export class SyncDataController {
   @Post('testsyncsubscription')
   @ApiOperation({ title: 'Test sync' })
   testSyncSubscription(@Req() req, @Res() res) {
-    // console.log(req);
-    // console.log('_____________________________________________');
-    // console.log(req.body);
-    // console.log('_____________________________________________');
-    // console.log(res);
     const urlSubscription = `https://beesuite.app:3003/subscription`;
     this.syncdataService.customerDbService.httpService.get(urlSubscription).subscribe(
       data => { res.status(HttpStatus.OK).send(data.data); },
@@ -118,6 +106,7 @@ export class SyncDataController {
         res.status(HttpStatus.OK).send(data);
       },
       err => {
+        console.log(err.response.data.error.context.resource);
         res.send(err);
       }
     )
@@ -141,14 +130,13 @@ export class SyncDataController {
     const payloadData = req.body;
     let resource = new Resource(new Array());
     this.setupSubscriptionData([payloadData, resource, null]);
-    // console.log(resource);
+
     this.syncdataService.subscriptionDbService.updateByModel([resource, [], [`(COMMERCE_ID=${payloadData.id})`], []]).pipe(
       map(res => {
         return res.data.resource;
       })
     ).subscribe(
       data => {
-        // console.log(data);
         res.status(HttpStatus.OK).send(data);
       },
       err => {
@@ -157,14 +145,39 @@ export class SyncDataController {
     )
   }
 
+  /**
+   * Resend email if user did not get email, need to refer userCreated.log
+   *
+   * @param {*} params
+   * @param {*} res
+   * @memberof SyncDataController
+   */
+  @Post('resend-mail/:email/:name/:username/:password')
+  @ApiOperation({ title: 'Resend email' })
+  @ApiImplicitParam({ name: 'email', description: 'Email user' })
+  @ApiImplicitParam({ name: 'name', description: 'Fullname user' })
+  @ApiImplicitParam({ name: 'username', description: 'Username user' })
+  @ApiImplicitParam({ name: 'password', description: 'Password user' })
+  resendEmail(@Param() params, @Res() res) {
+    let password = params.password;// 'fwefaqf';
+    let username = params.username;// 'fakhri@zen.com.my';
+    let fullname = params.name;// 'fakhri';
+    let email = params.email;// 'fakhri@zen.com.my';
+    this.syncdataService.sendEmailAgain([password, username, fullname, email]);
+    res.send('Email send');
+  }
 
-
+  /**
+   * Setup customer data
+   *
+   * @param {[any, any]} [dataWc, resource]
+   * @returns
+   * @memberof SyncDataController
+   */
   public setupCustomerData([dataWc, resource]: [any, any]) {
-    // console.log('____________________________');
-    // console.log(dataWc);
-    // console.log(dataWc.email);
     let billingInfo = dataWc.billing;
     let data = new CustomerModel;
+
     data.CUSTOMER_GUID = v1();
     data.CUSTOMER_LABEL = `CUS-${dataWc.id}`;
     data.COMMERCE_ID = dataWc.id;
@@ -181,10 +194,16 @@ export class SyncDataController {
     data.CONTACT_NO = billingInfo.phone;
 
     resource.resource.push(data);
-    // console.log(resource);
     return resource;
   }
 
+  /**
+   * Setup subscription data
+   *
+   * @param {[any, any, string]} [dataWcSubs, resource, customerGuid]
+   * @returns
+   * @memberof SyncDataController
+   */
   public setupSubscriptionData([dataWcSubs, resource, customerGuid]: [any, any, string]) {
     let data = new SubscriptionModel;
     data.SUBSCRIPTION_GUID = v1();
