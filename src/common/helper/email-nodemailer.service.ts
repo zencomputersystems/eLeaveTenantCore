@@ -120,6 +120,12 @@ export class EmailNodemailerService {
         return await error;
       } else {
         console.log(info);
+        const fs = require('fs');
+        fs.appendFile('sendMail.log', '\n[' + new Date() + ']' + JSON.stringify(info), (err) => {
+          if (err) {
+            throw err;
+          }
+        });
         return await info;
       }
     });
