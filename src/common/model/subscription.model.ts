@@ -105,4 +105,11 @@ export class SubscriptionModel extends CreateUpdateModel {
    * @memberof SubscriptionModel
    */
   REMARKS: string;
+  /**
+   * Login type
+   *
+   * @type {string}
+   * @memberof SubscriptionModel
+   */
+  LOGIN_TYPE: string;
 }

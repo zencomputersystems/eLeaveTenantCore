@@ -176,3 +176,25 @@ export function sendResErrorV2([res, code, msg]) { //sendErrorV2
   res.status(code);
   res.send(msg);
 }
+
+/**
+ * Run service callback
+ *
+ * @export
+ * @param {*} method
+ * @returns
+ */
+export async function runServiceCallback(method) {
+  const cbService = () => {
+    return new Promise((resolve, reject) => {
+      method.subscribe(
+        data => {
+          resolve(data);
+        }, err => {
+          return reject(err);
+        }
+      )
+    })
+  }
+  return await cbService();
+}

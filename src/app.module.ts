@@ -11,6 +11,7 @@ import { ForgotPasswordModule } from './admin/forgot-password/forgot-password.mo
 import { DashboardModule } from './admin/dashboard/dashboard.module';
 import { SyncDataModule } from './admin/sync-data/sync-data.module';
 import { SupportModule } from './admin/support/support.module';
+import { ResyncSubscriptionModule } from './admin/resync-subscription/resync.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { SupportModule } from './admin/support/support.module';
     SubscriptionModule,
     ActivityLogModule,
     DashboardModule,
-    SupportModule
+    SupportModule,
+    ResyncSubscriptionModule
   ],
   controllers: [AppController],
   providers: [AppService],
