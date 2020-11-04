@@ -15,4 +15,19 @@ export class ResyncSubscriptionController {
       err => { res.send(err); }
     )
   }
+
+  @Post()
+  @ApiOperation({ title: 'Resync Subscription Hook' })
+  @ApiImplicitParam({ name: 'customer_id', description: 'Customer id' })
+  async resyncSubscriptionHook(@Req() req, @Res() res) {
+    const payloadData = req.body;
+    const customerId = payloadData.customer_id;
+    console.log(customerId);
+    (await this.resyncSubscriptionService.resyncSubscription([customerId])).subscribe(
+      data => { res.send(data); },
+      err => { res.send(err); }
+    )
+  }
+
+
 }
